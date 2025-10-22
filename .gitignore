@@ -1,0 +1,29 @@
+# MonoGame
+bin/
+obj/
+*.user
+*.userprefs
+*.suo
+*.sln.docstates
+.DS_Store
+
+# Visual Studio
+.vs/
+.vscode/
+
+# Content Pipeline
+ContentPipeline/
+*.mgcb.editor.*
+Content/*.xnb
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Logs
+logs
+*.log
