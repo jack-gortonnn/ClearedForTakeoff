@@ -50,7 +50,7 @@ public class AircraftSpriteManager
     {
         _airlines.Add("AFR", new("AFR", "Air France", new() { ["A319"] = 1, ["A320"] = 2 }));
         _airlines.Add("BAW", new("BAW", "Speedbird", new() { ["A319"] = 2, ["A320"] = 3, ["A321"] = 2 }));
-        _airlines.Add("SNB", new("BEL", "Bee-Line", new() { ["A319"] = 3 }));
+        _airlines.Add("BEL", new("BEL", "Bee-Line", new() { ["A319"] = 3 }));
         _airlines.Add("DAL", new("DAL", "Delta", new() { ["A319"] = 4, ["A320"] = 4, ["A321"] = 3 }));
         _airlines.Add("EZY", new("EZY", "Easy", new() { ["A319"] = 5, ["A320"] = 7, ["A321"] = 6 }));
         _airlines.Add("AAL", new("AAL", "American", new() { ["A320"] = 1, ["A321"] = 1 }));
@@ -76,7 +76,7 @@ public class AircraftSpriteManager
         // Get airline or create generic
         var airline = _airlines.GetValueOrDefault(airlineCode) ?? new(airlineCode, "Generic", new());
 
-        // Get frame index 
+        // Get sprite index 
         int spriteIndex = airline.Aircraft.GetValueOrDefault(aircraftType, 0);
 
         var sourceRect = new Rectangle(

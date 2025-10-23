@@ -2,7 +2,7 @@
 
 public class AircraftType
 {
-    public string Name { get; set; }
+    public string Name { get; set; }  
     public int FrameWidth { get; set; }
     public int FrameHeight { get; set; }
     public int TotalSprites { get; set; }

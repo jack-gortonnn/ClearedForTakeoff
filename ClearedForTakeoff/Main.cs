@@ -31,10 +31,10 @@ public class Game1 : Game
         _spriteManager = new AircraftSpriteManager(this);
 
         // Create aircraft (just basic for now, not actually based off anything)
-        _aircraft.Add(new("A320", "BAW", new Vector2(100, 100)));
-        _aircraft.Add(new("A319", "EZY", new Vector2(300, 200)));
-        _aircraft.Add(new("A321", "DAL", new Vector2(500, 150)));
-        _aircraft.Add(new("A320", "XYZ", new Vector2(500, 150))); // No such airline, (should) use default sprite
+        _aircraft.Add(new("A319", "BAW", new Vector2(100, 100)));
+        _aircraft.Add(new("A320", "EZY", new Vector2(100, 200)));
+        _aircraft.Add(new("A321", "DAL", new Vector2(200, 100)));
+        _aircraft.Add(new("A321", "XYZ", new Vector2(200, 200))); // No such airline, (should) use default sprite
     }
 
     protected override void Update(GameTime gameTime)
@@ -50,6 +50,8 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         _spriteBatch.Begin();
+
+        GraphicsDevice.Clear(Color.DimGray);
 
         foreach (var plane in _aircraft)
         {
