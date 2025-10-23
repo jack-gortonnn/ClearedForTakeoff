@@ -1,24 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private AircraftSpriteManager _spriteManager;
-
-    // Demo aircraft positions
-    private Vector2[] aircraftPositions = new Vector2[]
-    {
-        new Vector2(100, 100),  // BAW A320
-        new Vector2(300, 100),  // UAL A319  
-        new Vector2(500, 100),  // DAL A321
-        new Vector2(100, 300),  // Fake airline (generic)
-    };
-
-    private string[] demoAirlines = { "BAW", "WZZ", "DAL", "XYZ" };
-    private string[] demoAircraft = { "A320", "A321", "A321", "A319" };
 
     public Game1()
     {
@@ -40,6 +29,12 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _spriteManager = new AircraftSpriteManager(this);
+
+        // Create aircraft (just basic for now, not actually based off anything)
+        _aircraft.Add(new("A320", "BAW", new Vector2(100, 100)));
+        _aircraft.Add(new("A319", "EZY", new Vector2(300, 200)));
+        _aircraft.Add(new("A321", "DAL", new Vector2(500, 150)));
+        _aircraft.Add(new("A320", "XYZ", new Vector2(500, 150))); // No such airline, (should) use default sprite
     }
 
     protected override void Update(GameTime gameTime)
@@ -50,21 +45,26 @@ public class Game1 : Game
         base.Update(gameTime);
     }
 
+    private List<Aircraft> _aircraft = new();
+
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
         _spriteBatch.Begin();
 
-        for (int i = 0; i < aircraftPositions.Length; i++)
+        foreach (var plane in _aircraft)
         {
-            var (texture, sourceRect, width, height, callsign) =
-                _spriteManager.GetAircraftSprite(demoAircraft[i], demoAirlines[i]);
+            // Get sprite data
+            var (texture, rect, w, h, callsign) = _spriteManager.GetAircraftSprite(plane.AircraftType, plane.AirlineCode);
+            plane.Texture = texture;
+            plane.SourceRect = rect;
+            plane.Width = w;
+            plane.Height = h;
+            plane.Callsign = callsign;
 
-            _spriteBatch.Draw(texture, aircraftPositions[i], sourceRect, Color.White);
-
+            // Draw
+            _spriteBatch.Draw(plane.Texture, plane.Position, plane.SourceRect, Color.White);
         }
 
         _spriteBatch.End();
-        base.Draw(gameTime);
     }
 }
