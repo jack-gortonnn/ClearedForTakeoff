@@ -21,7 +21,7 @@ public class AircraftSpriteManager
         _aircraftTypes["A319"] = new AircraftType
         {
             Name = "A319",
-            SpriteSheet = game.Content.Load<Texture2D>("A319"),
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/A319"),
             FrameWidth = 69,
             FrameHeight = 66,
             TotalSprites = 6
@@ -30,7 +30,7 @@ public class AircraftSpriteManager
         _aircraftTypes["A320"] = new AircraftType
         {
             Name = "A320",
-            SpriteSheet = game.Content.Load<Texture2D>("A320"),
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/A320"),
             FrameWidth = 69,
             FrameHeight = 74,
             TotalSprites = 13
@@ -39,16 +39,25 @@ public class AircraftSpriteManager
         _aircraftTypes["A321"] = new AircraftType
         {
             Name = "A321",
-            SpriteSheet = game.Content.Load<Texture2D>("A321"),
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/A321"),
             FrameWidth = 69,
             FrameHeight = 86,
             TotalSprites = 11
         };
 
+        _aircraftTypes["AT76"] = new AircraftType
+        {
+            Name = "AT76",
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/AT76"),
+            FrameWidth = 53,
+            FrameHeight = 53,
+            TotalSprites = 5
+        };
+
         _aircraftTypes["B738"] = new AircraftType
         {
             Name = "B738",
-            SpriteSheet = game.Content.Load<Texture2D>("B738"),
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/B738"),
             FrameWidth = 71,
             FrameHeight = 74,
             TotalSprites = 10
@@ -57,7 +66,7 @@ public class AircraftSpriteManager
         _aircraftTypes["B38M"] = new AircraftType
         {
             Name = "B38M`",
-            SpriteSheet = game.Content.Load<Texture2D>("B38M"),
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/B38M"),
             FrameWidth = 71,
             FrameHeight = 75,
             TotalSprites = 7
@@ -82,12 +91,15 @@ public class AircraftSpriteManager
         _airlines.Add("KLM", new("KLM", "Swiss", new() { ["B738"] = 4 }));
         _airlines.Add("RYR", new("RYR", "Ryanair", new() { ["B738"] = 6 }));
         _airlines.Add("SWR", new("SWR", "Swiss", new() { ["A320"] = 10 }));
-        _airlines.Add("TAP", new("TAP", "Air Portugal", new() { ["A320"] = 11, ["A321"] = 7 }));
+        _airlines.Add("TAP", new("TAP", "Air Portugal", new() { ["A320"] = 10, ["A321"] = 7 , ["AT76"] = 4}));
         _airlines.Add("TOM", new("TOM", "Tomjet", new() { ["B738"] = 8, ["B38M"] = 5 }));
         _airlines.Add("UAL", new("UAL", "United", new() { ["A320"] = 12, ["A321"] = 9, ["B738"] = 9, ["B38M"] = 6}));
         _airlines.Add("EXS", new("EXS", "Channex", new() { ["A321"] = 5, ["B738"] = 4}));
         _airlines.Add("THY", new("THY", "Turkish", new() { ["A321"] = 8 }));
         _airlines.Add("WZZ", new("WZZ", "Wizz", new() { ["A321"] = 10 }));
+        _airlines.Add("EIN", new("EIN", "Shamrock", new() { ["AT76"] = 1 }));
+        _airlines.Add("IBB", new("IBB", "Binter", new() { ["AT76"] = 2 }));
+        _airlines.Add("LOG", new("LOG", "Logan", new() { ["AT76"] = 3 }));
     }
 
     public (Texture2D texture, Rectangle sourceRect, int width, int height, string callsign)
