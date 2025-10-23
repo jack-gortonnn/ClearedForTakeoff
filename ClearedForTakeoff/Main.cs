@@ -31,10 +31,11 @@ public class Game1 : Game
         _spriteManager = new AircraftSpriteManager(this);
 
         // Create aircraft (just basic for now, not actually based off anything)
-        _aircraft.Add(new("A319", "BAW", new Vector2(100, 100)));
+        _aircraft.Add(new("B738", "TOM", new Vector2(100, 100)));
         _aircraft.Add(new("A320", "EZY", new Vector2(100, 200)));
         _aircraft.Add(new("A321", "DAL", new Vector2(200, 100)));
         _aircraft.Add(new("A321", "XYZ", new Vector2(200, 200))); // No such airline, (should) use default sprite
+        _aircraft.Add(new("A319", "BEL", new Vector2(300, 100)));
     }
 
     protected override void Update(GameTime gameTime)
