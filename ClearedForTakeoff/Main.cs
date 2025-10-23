@@ -41,6 +41,7 @@ public class Game1 : Game
         foreach (var kvp in _spriteManager.GetAllAircraftTypes())
         {
             // awful hacky way to position aircraft in rows by type, hardlimited to 11 per type (but it works)
+            // todo: use a better layout algorithm like a grid or something
             string aircraftType = kvp.Key;
             var positions = new[] { new Vector2(100, y), new Vector2(200, y), new Vector2(300, y), new Vector2(400, y), new Vector2(500, y), new Vector2(600, y), new Vector2(700, y), new Vector2(800, y), new Vector2(900, y), new Vector2(1000, y), new Vector2(1100, y), new Vector2(1200, y) };
 

@@ -107,7 +107,7 @@ public class AircraftSpriteManager
         _airlines.Add("NOZ", new("NOZ", "Nordic", new() { ["B738"] = 5, ["B38M"] = 3 }));
         _airlines.Add("SWA", new("SWA", "Southwest", new() { ["B738"] = 7, ["B38M"] = 4 }));
         _airlines.Add("SAS", new("SAS", "Scandinavian", new() { ["A320"] = 12 }));
-        _airlines.Add("KLM", new("KLM", "Swiss", new() { ["B738"] = 4 }));
+        _airlines.Add("KLM", new("KLM", "KLM", new() { ["B738"] = 4 }));
         _airlines.Add("RYR", new("RYR", "Ryanair", new() { ["B738"] = 6 }));
         _airlines.Add("SWR", new("SWR", "Swiss", new() { ["A320"] = 9 }));
         _airlines.Add("TAP", new("TAP", "Air Portugal", new() { ["A320"] = 10, ["A321"] = 7 , ["AT76"] = 4}));
