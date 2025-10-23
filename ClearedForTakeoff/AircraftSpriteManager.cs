@@ -53,7 +53,6 @@ public class AircraftSpriteManager
         _airlines.Add("BEL", new("BEL", "Bee-Line", new() { ["A319"] = 3 }));
         _airlines.Add("DAL", new("DAL", "Delta", new() { ["A319"] = 4, ["A320"] = 4, ["A321"] = 3 }));
         _airlines.Add("EZY", new("EZY", "Easy", new() { ["A319"] = 5, ["A320"] = 7, ["A321"] = 6 }));
-        _airlines.Add("AAL", new("AAL", "American", new() { ["A320"] = 1, ["A321"] = 1 }));
         _airlines.Add("DLH", new("DLH", "Lufthansa", new() { ["A320"] = 5, ["A321"] = 4 }));
         _airlines.Add("EWG", new("EWG", "Eurowings", new() { ["A320"] = 6 }));
         _airlines.Add("IBE", new("IBE", "Iberia", new() { ["A320"] = 8 }));
