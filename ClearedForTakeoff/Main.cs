@@ -30,12 +30,31 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _spriteManager = new AircraftSpriteManager(this);
 
-        // Create aircraft (just basic for now, not actually based off anything)
-        _aircraft.Add(new("B738", "RYR", new Vector2(100, 100)));
-        _aircraft.Add(new("A320", "EZY", new Vector2(100, 200)));
-        _aircraft.Add(new("A320", "TAP", new Vector2(200, 100)));
-        _aircraft.Add(new("A321", "XYZ", new Vector2(200, 200))); // No such airline, (should) use default sprite
-        _aircraft.Add(new("AT76", "TAP", new Vector2(300, 100)));
+        _aircraft = GenerateFleet();
+    }
+
+    private List<Aircraft> GenerateFleet()
+    {
+        var fleet = new List<Aircraft>();
+        int y = 50;
+
+        foreach (var kvp in _spriteManager.GetAllAircraftTypes())
+        {
+            // awful hacky way to position aircraft in rows by type, hardlimited to 11 per type (but it works)
+            string aircraftType = kvp.Key;
+            var positions = new[] { new Vector2(100, y), new Vector2(200, y), new Vector2(300, y), new Vector2(400, y), new Vector2(500, y), new Vector2(600, y), new Vector2(700, y), new Vector2(800, y), new Vector2(900, y), new Vector2(1000, y), new Vector2(1100, y), new Vector2(1200, y) };
+
+            var airlinesWithType = _spriteManager.GetAirlinesForAircraft(aircraftType);
+
+            for (int i = 1; i <= airlinesWithType.Count && i <= positions.Length; i++)
+            {
+                string airlineCode = airlinesWithType[i - 1];
+                fleet.Add(new Aircraft(aircraftType, airlineCode, positions[i - 1]));
+            }
+
+            y += 100;
+        }
+        return fleet; 
     }
 
     protected override void Update(GameTime gameTime)

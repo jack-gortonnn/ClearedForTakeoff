@@ -18,6 +18,16 @@ public class AircraftSpriteManager
 
     private void LoadAircraftSheets(Game game)
     {
+
+        _aircraftTypes["AT76"] = new AircraftType
+        {
+            Name = "AT76",
+            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/AT76"),
+            FrameWidth = 53,
+            FrameHeight = 53,
+            TotalSprites = 5
+        };
+
         _aircraftTypes["A319"] = new AircraftType
         {
             Name = "A319",
@@ -45,15 +55,6 @@ public class AircraftSpriteManager
             TotalSprites = 11
         };
 
-        _aircraftTypes["AT76"] = new AircraftType
-        {
-            Name = "AT76",
-            SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/AT76"),
-            FrameWidth = 53,
-            FrameHeight = 53,
-            TotalSprites = 5
-        };
-
         _aircraftTypes["B738"] = new AircraftType
         {
             Name = "B738",
@@ -73,6 +74,24 @@ public class AircraftSpriteManager
         };
     }
 
+    public Dictionary<string, AircraftType> GetAllAircraftTypes() => new(_aircraftTypes);
+
+    public List<string> GetAirlinesForAircraft(string aircraftType)
+    {
+        var airlines = new List<string>();
+
+        foreach (var airline in _airlines)
+        {
+            if (airline.Value.Aircraft.ContainsKey(aircraftType))
+            {
+                airlines.Add(airline.Key);
+            }
+           
+        }
+
+        return airlines;
+    }
+
     private void LoadAirlineData()
     {
         _airlines.Add("AAL", new("AAL", "American", new() { ["A320"] = 1, ["A321"] = 1, ["B738"] = 1, ["B38M"] = 1}));
@@ -87,14 +106,14 @@ public class AircraftSpriteManager
         _airlines.Add("IBE", new("IBE", "Iberia", new() { ["A320"] = 8 }));
         _airlines.Add("NOZ", new("NOZ", "Nordic", new() { ["B738"] = 5, ["B38M"] = 3 }));
         _airlines.Add("SWA", new("SWA", "Southwest", new() { ["B738"] = 7, ["B38M"] = 4 }));
-        _airlines.Add("SAS", new("SAS", "Scandinavian", new() { ["A320"] = 9 }));
+        _airlines.Add("SAS", new("SAS", "Scandinavian", new() { ["A320"] = 12 }));
         _airlines.Add("KLM", new("KLM", "Swiss", new() { ["B738"] = 4 }));
         _airlines.Add("RYR", new("RYR", "Ryanair", new() { ["B738"] = 6 }));
-        _airlines.Add("SWR", new("SWR", "Swiss", new() { ["A320"] = 10 }));
+        _airlines.Add("SWR", new("SWR", "Swiss", new() { ["A320"] = 9 }));
         _airlines.Add("TAP", new("TAP", "Air Portugal", new() { ["A320"] = 10, ["A321"] = 7 , ["AT76"] = 4}));
         _airlines.Add("TOM", new("TOM", "Tomjet", new() { ["B738"] = 8, ["B38M"] = 5 }));
-        _airlines.Add("UAL", new("UAL", "United", new() { ["A320"] = 12, ["A321"] = 9, ["B738"] = 9, ["B38M"] = 6}));
-        _airlines.Add("EXS", new("EXS", "Channex", new() { ["A321"] = 5, ["B738"] = 4}));
+        _airlines.Add("UAL", new("UAL", "United", new() { ["A320"] = 11, ["A321"] = 9, ["B738"] = 9, ["B38M"] = 6}));
+        _airlines.Add("EXS", new("EXS", "Channex", new() { ["A321"] = 5, ["B738"] = 3 }));
         _airlines.Add("THY", new("THY", "Turkish", new() { ["A321"] = 8 }));
         _airlines.Add("WZZ", new("WZZ", "Wizz", new() { ["A321"] = 10 }));
         _airlines.Add("EIN", new("EIN", "Shamrock", new() { ["AT76"] = 1 }));
