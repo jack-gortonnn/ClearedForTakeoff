@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 public class Game1 : Game
 {
@@ -12,6 +13,9 @@ public class Game1 : Game
     private GameContentManager _contentManager;
     private FleetManager _fleetManager;
     private SpriteRenderer _renderer;
+    private SpriteFont consolas;
+    private MouseState _previousMouseState;
+    private string clicked;
 
     public Game1()
     {
@@ -40,6 +44,7 @@ public class Game1 : Game
         _spriteManager = new AircraftSpriteManager(this);
         _fleetManager = new FleetManager(_spriteManager, _contentManager.Airlines);
         _renderer = new SpriteRenderer(_spriteBatch, _spriteManager);
+        consolas = Content.Load<SpriteFont>("Consolas");
     }
 
     protected override void Update(GameTime gameTime)
@@ -47,12 +52,39 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        _previousMouseState = Mouse.GetState();
+
+        if (_previousMouseState.LeftButton == ButtonState.Pressed)
+        {
+            Point mousePos = new Point(_previousMouseState.X, _previousMouseState.Y);
+            foreach (var plane in _fleetManager.Fleet)
+            {
+                var (texture, rect, _, _) = _spriteManager.GetAircraftSprite(plane.AircraftType, plane.SpriteIndex);
+                if (texture != null)
+                {
+                    Rectangle planeRect = new Rectangle((int)plane.Position.X, (int)plane.Position.Y, rect.Width, rect.Height);
+                    if (planeRect.Contains(mousePos))
+                    {
+
+                        clicked = $"Clicked on {plane.AirlineName} {plane.AircraftType},  {plane.Position}";
+                    }
+                }
+            }
+        }
+
+
+
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.DimGray);
+        GraphicsDevice.Clear(Color.Black);
         _renderer.Draw(_fleetManager.Fleet);
+
+        _spriteBatch.Begin();
+        _spriteBatch.DrawString(consolas, $"Pos: {_previousMouseState.X}, {_previousMouseState.Y}", new Vector2(5, 5), Color.Green);
+        _spriteBatch.DrawString(consolas, $"{clicked}", new Vector2(5, 20), Color.Green);
+        _spriteBatch.End();
     }
 }

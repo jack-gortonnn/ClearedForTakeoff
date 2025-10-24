@@ -36,7 +36,7 @@ public class FleetManager
                 int spriteIndex = airline.Fleet.GetValueOrDefault(aircraftType, 0);
                 int x = startX + col * xSpacing;
                 int y = startY + row * ySpacing;
-                _fleet.Add(new Aircraft(aircraftType, airline.Code, airline.Callsign, new Vector2(x, y), spriteIndex));
+                _fleet.Add(new Aircraft(aircraftType, airline.Code, airline.Name,airline.Callsign, new Vector2(x, y), spriteIndex));
                 col++;
                 if (col >= maxPerRow)
                 {
