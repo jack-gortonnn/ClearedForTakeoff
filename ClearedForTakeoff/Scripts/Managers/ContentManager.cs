@@ -9,6 +9,9 @@ public class GameContentManager
     private readonly ContentManager _content;
     private readonly string _contentRoot;
 
+    /// <summary>
+    /// Airline code → Airline object
+    /// </summary>
     public Dictionary<string, Airline> Airlines { get; private set; } = new();
 
     public GameContentManager(ContentManager content)
@@ -33,25 +36,52 @@ public class GameContentManager
         }
 
         string json = File.ReadAllText(filePath);
-        var airlineData = JsonSerializer.Deserialize<List<AirlineData>>(json)!;
+
+        // NEW: use the updated DTO that matches the JSON
+        var airlineData = JsonSerializer.Deserialize<List<AirlineData>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
 
         Airlines.Clear();
+
         foreach (var data in airlineData)
         {
+            // Convert the dictionary of routes (origin → destination list)
+            var routes = new Dictionary<string, List<string>>();
+            if (data.Routes != null)
+            {
+                foreach (var kvp in data.Routes)
+                {
+                    routes[kvp.Key] = kvp.Value;               // value is already List<string>
+                }
+            }
+
             var airline = new Airline(
                 code: data.Code,
+                name: data.Name,
                 callsign: data.Callsign,
-                aircraft: data.Aircraft
+                frequency: data.Frequency,
+                routes: routes,
+                fleet: data.Fleet ?? new Dictionary<string, int>()
             );
+
             Airlines[airline.Code] = airline;
         }
     }
 }
 
-// Helper class to match JSON structure
+// ---------------------------------------------------------------
+// DTO that exactly mirrors the JSON structure
+// ---------------------------------------------------------------
 public class AirlineData
 {
-    public string Code { get; set; } = "";
+    public string Name { get; set; } = "";
     public string Callsign { get; set; } = "";
-    public Dictionary<string, int> Aircraft { get; set; } = new();
+    public string Code { get; set; } = "";
+    public int Frequency { get; set; } = 0;
+
+    // Routes: origin airport → list of destination airports
+    public Dictionary<string, List<string>> Routes { get; set; }
+
+    // Fleet: aircraft type → count
+    public Dictionary<string, int> Fleet { get; set; }
 }

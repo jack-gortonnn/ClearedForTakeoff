@@ -33,7 +33,7 @@ public class FleetManager
 
             foreach (var airline in airlines)
             {
-                int spriteIndex = airline.Aircraft.GetValueOrDefault(aircraftType, 0);
+                int spriteIndex = airline.Fleet.GetValueOrDefault(aircraftType, 0);
                 int x = startX + col * xSpacing;
                 int y = startY + row * ySpacing;
                 _fleet.Add(new Aircraft(aircraftType, airline.Code, airline.Callsign, new Vector2(x, y), spriteIndex));
@@ -53,7 +53,7 @@ public class FleetManager
         var airlines = new List<Airline>();
         foreach (var airline in _airlines.Values)
         {
-            if (airline.Aircraft.ContainsKey(aircraftType))
+            if (airline.Fleet.ContainsKey(aircraftType))
                 airlines.Add(airline);
         }
         return airlines;
