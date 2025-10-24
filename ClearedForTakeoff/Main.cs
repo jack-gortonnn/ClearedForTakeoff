@@ -29,7 +29,6 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _spriteManager = new AircraftSpriteManager(this);
-
         _aircraft = GenerateFleet();
     }
 
