@@ -1,0 +1,206 @@
+[
+  {
+    "Code": "AAL",
+    "Callsign": "American",
+    "Aircraft": {
+      "A320": 1,
+      "A321": 1,
+      "B738": 1,
+      "B38M": 1
+    }
+  },
+  {
+    "Code": "AFR",
+    "Callsign": "Air France",
+    "Aircraft": {
+      "A319": 1,
+      "A320": 2
+    }
+  },
+  {
+    "Code": "ASA",
+    "Callsign": "Alaskan",
+    "Aircraft": {
+      "B738": 2,
+      "B38M": 2
+    }
+  },
+  {
+    "Code": "BAW",
+    "Callsign": "Speedbird",
+    "Aircraft": {
+      "A319": 2,
+      "A320": 3,
+      "A321": 2
+    }
+  },
+  {
+    "Code": "BEL",
+    "Callsign": "Bee-Line",
+    "Aircraft": {
+      "A319": 3
+    }
+  },
+  {
+    "Code": "DAL",
+    "Callsign": "Delta",
+    "Aircraft": {
+      "A319": 4,
+      "A320": 4,
+      "A321": 3
+    }
+  },
+  {
+    "Code": "EZY",
+    "Callsign": "Easy",
+    "Aircraft": {
+      "A319": 5,
+      "A320": 7,
+      "A321": 6
+    }
+  },
+  {
+    "Code": "DLH",
+    "Callsign": "Lufthansa",
+    "Aircraft": {
+      "A320": 5,
+      "A321": 4
+    }
+  },
+  {
+    "Code": "EWG",
+    "Callsign": "Eurowings",
+    "Aircraft": {
+      "A320": 6
+    }
+  },
+  {
+    "Code": "IBE",
+    "Callsign": "Iberia",
+    "Aircraft": {
+      "A320": 8
+    }
+  },
+  {
+    "Code": "NOZ",
+    "Callsign": "Nordic",
+    "Aircraft": {
+      "B738": 5,
+      "B38M": 3
+    }
+  },
+  {
+    "Code": "SWA",
+    "Callsign": "Southwest",
+    "Aircraft": {
+      "B738": 7,
+      "B38M": 4
+    }
+  },
+  {
+    "Code": "SAS",
+    "Callsign": "Scandinavian",
+    "Aircraft": {
+      "A320": 12
+    }
+  },
+  {
+    "Code": "KLM",
+    "Callsign": "KLM",
+    "Aircraft": {
+      "B738": 4
+    }
+  },
+  {
+    "Code": "RYR",
+    "Callsign": "Ryanair",
+    "Aircraft": {
+      "B738": 6
+    }
+  },
+  {
+    "Code": "SWR",
+    "Callsign": "Swiss",
+    "Aircraft": {
+      "A320": 9
+    }
+  },
+  {
+    "Code": "TAP",
+    "Callsign": "Air Portugal",
+    "Aircraft": {
+      "A320": 10,
+      "A321": 7,
+      "AT76": 4
+    }
+  },
+  {
+    "Code": "TOM",
+    "Callsign": "Tomjet",
+    "Aircraft": {
+      "B738": 8,
+      "B38M": 5
+    }
+  },
+  {
+    "Code": "UAL",
+    "Callsign": "United",
+    "Aircraft": {
+      "A320": 11,
+      "A321": 9,
+      "B738": 9,
+      "B38M": 6
+    }
+  },
+  {
+    "Code": "EXS",
+    "Callsign": "Channex",
+    "Aircraft": {
+      "A321": 5,
+      "B738": 3
+    }
+  },
+  {
+    "Code": "THY",
+    "Callsign": "Turkish",
+    "Aircraft": {
+      "A321": 8
+    }
+  },
+  {
+    "Code": "WZZ",
+    "Callsign": "Wizz",
+    "Aircraft": {
+      "A321": 10
+    }
+  },
+  {
+    "Code": "EIN",
+    "Callsign": "Shamrock",
+    "Aircraft": {
+      "AT76": 1
+    }
+  },
+  {
+    "Code": "IBB",
+    "Callsign": "Binter",
+    "Aircraft": {
+      "AT76": 2
+    }
+  },
+  {
+    "Code": "LOG",
+    "Callsign": "Logan",
+    "Aircraft": {
+      "AT76": 3
+    }
+  },
+  {
+    "Code": "CFG",
+    "Callsign": "Condor",
+    "Aircraft": {
+      "A320": 13,
+      "A321": 11
+    }
+  }
+]

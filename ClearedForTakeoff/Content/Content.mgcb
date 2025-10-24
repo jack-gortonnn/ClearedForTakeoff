@@ -13,13 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Consolas.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Consolas.spritefont
-
 #begin sprites/Aircraft/A319.png
 /importer:TextureImporter
 /processor:TextureProcessor
