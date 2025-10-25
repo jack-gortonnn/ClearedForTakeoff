@@ -54,6 +54,16 @@ public class Game1 : Game
 
         _previousMouseState = Mouse.GetState();
 
+        Point mousepospoint = new Point(_previousMouseState.X, _previousMouseState.Y);
+
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            foreach (var plane in _fleetManager.Fleet)
+            {
+                plane.MoveToPosition(mousepospoint);
+            }
+        }
+
         if (_previousMouseState.LeftButton == ButtonState.Pressed)
         {
             Point mousePos = new Point(_previousMouseState.X, _previousMouseState.Y);
@@ -69,7 +79,10 @@ public class Game1 : Game
                         clicked = $"Clicked on {plane.AirlineName} {plane.AircraftType},  {plane.Position}";
                     }
                 }
+
+      
             }
+
         }
 
 
@@ -80,7 +93,7 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _renderer.Draw(_fleetManager.Fleet);
+        _renderer.DrawAircraft(_fleetManager.Fleet);
 
         _spriteBatch.Begin();
         _spriteBatch.DrawString(consolas, $"Pos: {_previousMouseState.X}, {_previousMouseState.Y}", new Vector2(5, 5), Color.Green);

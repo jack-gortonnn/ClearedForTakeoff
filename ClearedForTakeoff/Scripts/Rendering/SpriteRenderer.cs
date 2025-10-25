@@ -13,14 +13,26 @@ public class SpriteRenderer
         _spriteManager = spriteManager;
     }
 
-    public void Draw(IEnumerable<Aircraft> aircraft)
+    public void DrawAircraft(IEnumerable<Aircraft> aircraft)
     {
         _spriteBatch.Begin();
         foreach (var plane in aircraft)
         {
             var (texture, rect, _, _) = _spriteManager.GetAircraftSprite(plane.AircraftType, plane.SpriteIndex);
             if (texture != null)
-                _spriteBatch.Draw(texture, plane.Position, rect, Color.White);
+
+                // rotate based on heading
+                _spriteBatch.Draw(
+                    texture,
+                    plane.Position,
+                    rect,
+                    Color.White,
+                    MathHelper.ToRadians(plane.Heading),
+                    new Vector2(rect.Width / 2f, rect.Height / 2f), // origin at center
+                    1.0f,
+                    SpriteEffects.None,
+                    0f
+                );
         }
         _spriteBatch.End();
     }

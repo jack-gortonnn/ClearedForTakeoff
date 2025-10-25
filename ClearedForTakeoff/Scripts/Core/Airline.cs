@@ -16,7 +16,5 @@ public class Airline
         Fleet = fleet;
         Frequency = frequency;
         Routes = routes;
-
-
     }
 }
