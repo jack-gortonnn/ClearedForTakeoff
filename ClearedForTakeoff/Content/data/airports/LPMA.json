@@ -1,0 +1,35 @@
+{
+  "ICAO": "LPMA",
+  "Center": {
+    "X": 640,
+    "Y": 360
+  },
+  "Gates": [
+    {
+      "Name": "G1",
+      "Position": {
+        "X": 500,
+        "Y": 300
+      },
+      "Orientation": 90
+    },
+    {
+      "Name": "G2",
+      "Position": {
+        "X": 700,
+        "Y": 300
+      },
+      "Orientation": 270
+    },
+    {
+      "Name": "G3",
+      "Position": {
+        "X": 600,
+        "Y": 450
+      },
+      "Orientation": 0
+    }
+  ],
+  "Runways": [],
+  "TaxiNodes": []
+}

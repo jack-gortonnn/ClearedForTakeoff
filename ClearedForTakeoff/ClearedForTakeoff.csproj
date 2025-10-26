@@ -19,6 +19,9 @@
     <Content Include="Content\data\airlines.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\data\airports\EGCC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico">
@@ -34,6 +37,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\Pathfinding\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\data\airports\LPMA.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
     <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />

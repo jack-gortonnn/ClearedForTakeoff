@@ -1,20 +1,12 @@
 ﻿using System.Collections.Generic;
 
+// worth noting that we don't need a constructor since contentmanager does it for us
 public class Airline
 {
-    public string Name { get; set; }
-    public string Code { get; set; }
-    public string Callsign { get; set; }
-    public int Frequency { get; set; }
-    public Dictionary<string, int> Fleet { get; set; } = new();
-    public Dictionary<string, List<string>> Routes { get; set; } = new();
-    public Airline(string name, string code, string callsign, int frequency, Dictionary<string, int> fleet, Dictionary<string,List<string>> routes)
-    {
-        Name = name;
-        Code = code;
-        Callsign = callsign;
-        Fleet = fleet;
-        Frequency = frequency;
-        Routes = routes;
-    }
+    public string Name { get; init; } = "";
+    public string Callsign { get; init; } = "";
+    public string Code { get; init; } = "";
+    public int Frequency { get; init; } = 0;
+    public Dictionary<string, List<string>> Routes { get; init; } = new();
+    public Dictionary<string, int> Fleet { get; init; } = new();
 }

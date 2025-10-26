@@ -65,7 +65,7 @@ public class AircraftSpriteManager
 
             _aircraftTypes["B38M"] = new AircraftType
             {
-                Name = "B38M`",
+                Name = "B738M",
                 SpriteSheet = game.Content.Load<Texture2D>("sprites/Aircraft/B38M"),
                 SpriteWidth = 71,
                 SpriteHeight = 75,
@@ -76,6 +76,7 @@ public class AircraftSpriteManager
         catch (ContentLoadException ex)
         {
             Console.WriteLine($"Failed to load sprite: {ex.Message}");
+
         }
     }
 
