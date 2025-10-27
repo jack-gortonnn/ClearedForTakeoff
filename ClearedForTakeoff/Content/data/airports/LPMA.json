@@ -28,6 +28,62 @@
         "Y": 450
       },
       "Orientation": 0
+    },
+    {
+      "Name": "G4",
+      "Position": {
+        "X": 550,
+        "Y": 200
+      },
+      "Orientation": 90
+    },
+    {
+      "Name": "G5",
+      "Position": {
+        "X": 730,
+        "Y": 200
+      },
+      "Orientation": 270
+    },
+    {
+      "Name": "G6",
+      "Position": {
+        "X": 500,
+        "Y": 500
+      },
+      "Orientation": 0
+    },
+    {
+      "Name": "G7",
+      "Position": {
+        "X": 780,
+        "Y": 400
+      },
+      "Orientation": 270
+    },
+    {
+      "Name": "G8",
+      "Position": {
+        "X": 620,
+        "Y": 550
+      },
+      "Orientation": 0
+    },
+    {
+      "Name": "G9",
+      "Position": {
+        "X": 560,
+        "Y": 380
+      },
+      "Orientation": 90
+    },
+    {
+      "Name": "G10",
+      "Position": {
+        "X": 720,
+        "Y": 380
+      },
+      "Orientation": 270
     }
   ],
   "Runways": [],

@@ -9,8 +9,8 @@ public class Game1 : Game
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch = null!;
 
-    private AircraftSpriteManager _spriteManager = null!;
-    private GameContentManager _contentManager = null!;
+    private SpriteManager _spriteManager = null!;
+    private LoadingManager _loadingManager = null!;
     private AirportManager _airportManager = null!;
     private SpriteRenderer _renderer = null!;
 
@@ -40,14 +40,14 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _contentManager = new GameContentManager(Content);
-        _contentManager.LoadAllContent();
+        _loadingManager = new LoadingManager(Content);
+        _loadingManager.LoadAllContent();
 
-        _spriteManager = new AircraftSpriteManager(this);
+        _spriteManager = new SpriteManager(this);
         _airportManager = new AirportManager(
             _spriteManager,
-            _contentManager.Airlines,
-            _contentManager.CurrentAirport);
+            _loadingManager.Airlines,
+            _loadingManager.CurrentAirport);
 
         _consolas = Content.Load<SpriteFont>("Consolas");
         _renderer = new SpriteRenderer(_spriteBatch, _spriteManager, _consolas);
@@ -60,26 +60,38 @@ public class Game1 : Game
         if (InputManager.Pressed(Keys.Escape))
             Exit();
 
-        // --- Pushback (P) ---
         if (InputManager.Pressed(Keys.P))
         {
             if (_selectedPlane == null)
-                _clicked = "Click a plane first!";
+                _clicked = "Click a plane first";
             else if (_selectedPlane.State != AircraftState.AtGate)
                 _clicked = "Not at gate";
             else
             {
                 _selectedPlane.SetState(AircraftState.PushingBack);
-                _clicked = $"Push-back: {_selectedPlane.FlightNumber}";
+                _clicked = $"Pushback {_selectedPlane.FlightNumber}";
+            }
+        }
+
+        if (InputManager.Pressed(Keys.S))
+        {
+            if (_selectedPlane == null)
+                _clicked = "Click a plane first";
+            else if (_selectedPlane.State != AircraftState.PushingBack)
+                _clicked = "Can't stop a plane that's not pushing back!";
+            else
+            {
+                _selectedPlane.SetState(AircraftState.Taxiing);
+                _clicked = $"Taxx {_selectedPlane.FlightNumber}";
             }
         }
 
         foreach (var plane in _airportManager.Fleet)
         {
             plane.Update();
+            plane.IsSelected = (plane == _selectedPlane); // unfortunately have to do this to keep selection after update
         }
 
-        // --- Select aircraft (Left Click) ---
         if (InputManager.ClickedLeft())
             HandleClick(InputManager.MousePosition);
 
@@ -88,29 +100,25 @@ public class Game1 : Game
 
     private void HandleClick(Point mousePos)
     {
+        Debug.WriteLine("[CLICK EVENT]");
+
         _selectedPlane = null;
         _clicked = "Clicked empty space";
 
         foreach (var plane in _airportManager.Fleet)
         {
-            var (texture, srcRect, w, h) = _spriteManager.GetAircraftSprite(plane.AircraftType, plane.SpriteIndex);
-            if (texture == null) continue;
-
-            var planeRect = new Rectangle(
-                (int)(plane.Position.X - w * 0.5f),
-                (int)(plane.Position.Y - h * 0.5f),
-                w, h);
-
-            if (planeRect.Contains(mousePos))
+            if (plane.WorldBoundingBox.Contains(mousePos))
             {
                 _selectedPlane = plane;
+                plane.IsSelected = true;
                 string gate = plane.AssignedGate ?? "?";
-                _clicked = $"{plane.AirlineName} {plane.FlightNumber} | {plane.AircraftType} | {plane.State} | GATE {gate}";
+                _clicked = $"{plane.AirlineName} {plane.FlightNumber} | {plane.AircraftType} | {plane.Destination} | {plane.State} | GATE {gate}";
                 Debug.WriteLine($"[SELECT] {plane.FlightNumber} at ({plane.Position.X}, {plane.Position.Y}) = Gate {gate}");
                 break;
             }
         }
     }
+
 
     protected override void Draw(GameTime gameTime)
     {
@@ -119,8 +127,8 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        string info = _contentManager.CurrentAirport != null
-            ? $"Airport: {_contentManager.CurrentAirport.ICAO} | Planes: {_airportManager.Fleet.Count}"
+        string info = _loadingManager.CurrentAirport != null
+            ? $"Airport: {_loadingManager.CurrentAirport.ICAO} | Planes: {_airportManager.Fleet.Count}"
             : "NO AIRPORT LOADED";
         _spriteBatch.DrawString(_consolas, info, new Vector2(5, 5), Color.Cyan);
 

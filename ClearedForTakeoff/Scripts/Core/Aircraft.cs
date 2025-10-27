@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 
 public enum AircraftState
 {
@@ -30,8 +31,13 @@ public class Aircraft
     public float Heading { get; set; } = 0f;
     public float Speed { get; set; } = 10f;
     public float Altitude { get; set; } = 0f;
-    public int SpriteIndex { get; init; }
 
+    public Texture2D AircraftTexture { get; set; }
+    public int SpriteIndex { get; init; }
+    public Rectangle BoundingBox { get; init; } = new(0, 0, 40, 40);
+    public Rectangle SourceRect { get; set; }
+
+    public bool IsSelected { get; set; } = false;
     public AircraftState State { get; private set; } = AircraftState.AtGate;
 
     public Vector2 Velocity;
@@ -39,7 +45,7 @@ public class Aircraft
     public float MaxSpeed = 5f;
 
     public Aircraft(string aircraftType, string airlineCode, string airlineName, string callsign,
-                    Vector2 position, int spriteIndex)
+                    Vector2 position, int spriteIndex, Texture2D aircraftTexture, Rectangle sourceRect, Rectangle boundingBox)
     {
         AircraftType = aircraftType;
         AirlineCode = airlineCode;
@@ -47,7 +53,18 @@ public class Aircraft
         Callsign = callsign;
         Position = position;
         SpriteIndex = spriteIndex;
+        AircraftTexture = aircraftTexture;
+        SourceRect = sourceRect;
+        BoundingBox = boundingBox;
     }
+
+    public Rectangle WorldBoundingBox =>
+        new Rectangle(
+            (int)(Position.X - BoundingBox.Width * 0.5f),
+            (int)(Position.Y - BoundingBox.Height * 0.5f),
+            BoundingBox.Width,
+            BoundingBox.Height);
+
 
     public void SetState(AircraftState newState)
     {

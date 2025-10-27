@@ -6,11 +6,11 @@ using System.Collections.Generic;
 public class SpriteRenderer
 {
     private readonly SpriteBatch _spriteBatch;
-    private readonly AircraftSpriteManager _spriteManager;
+    private readonly SpriteManager _spriteManager;
     private readonly SpriteFont _debugFont;
 
     public SpriteRenderer(SpriteBatch spriteBatch,
-                          AircraftSpriteManager spriteManager,
+                          SpriteManager spriteManager,
                           SpriteFont debugFont)
     {
         _spriteBatch = spriteBatch;
@@ -24,22 +24,20 @@ public class SpriteRenderer
 
         foreach (var plane in aircraft)
         {
-            var (texture, srcRect, width, height) = _spriteManager.GetAircraftSprite(
+            var (texture, srcRect, width, height) = _spriteManager.GetSprite(
                 plane.AircraftType, plane.SpriteIndex);
             if (texture == null) continue;
 
-            Color tint = plane.State switch
+            Color tint = Color.White;
+            if (plane.IsSelected == false)
             {
-                AircraftState.AtGate => Color.White,
-                AircraftState.PushingBack => Color.Yellow,
-                AircraftState.Taxiing => Color.Cyan,
-                _ => Color.Gray
-            };
+                tint = Color.Gray;
+            }
 
             _spriteBatch.Draw(
-                texture,
+                plane.AircraftTexture,
                 plane.Position,
-                srcRect,
+                plane.SourceRect,
                 tint,
                 MathHelper.ToRadians(plane.Heading),
                 new Vector2(width * 0.5f, height * 0.5f),
@@ -56,38 +54,8 @@ public class SpriteRenderer
                                         Color.Yellow, 0f, origin, 0.65f,
                                         SpriteEffects.None, 0f);
             }
-
-            if (selected == plane)
-            {
-                float radius = MathHelper.Max(width, height) * 0.6f;
-                DrawCircle(_spriteBatch, plane.Position, radius, Color.White, 2);
-            }
         }
 
         _spriteBatch.End();
-    }
-
-    private void DrawCircle(SpriteBatch sb, Vector2 center, float radius, Color color, int thickness)
-
-    {
-        const int segments = 12;
-        var angleStep = MathHelper.TwoPi / segments;
-        var pixel = new Texture2D(sb.GraphicsDevice, 1, 1);
-        pixel.SetData(new[] { Color.White });
-
-        for (int i = 0; i < segments; i++)
-        {
-            var a = center + new Vector2((float)Math.Cos(i * angleStep), (float)Math.Sin(i * angleStep)) * radius;
-            var b = center + new Vector2((float)Math.Cos((i + 1) * angleStep), (float)Math.Sin((i + 1) * angleStep)) * radius;
-            var dir = b - a;
-            var len = dir.Length();
-            if (len == 0) continue;
-            dir.Normalize();
-            sb.Draw(pixel, a, null, color,
-                    (float)Math.Atan2(dir.Y, dir.X),
-                    new Vector2(0, 0.5f),
-                    new Vector2(len, thickness),
-                    SpriteEffects.None, 0f);
-        }
     }
 }

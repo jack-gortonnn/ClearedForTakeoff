@@ -5,18 +5,18 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class GameContentManager
+public class LoadingManager
 {
     private readonly ContentManager _content;
     public Dictionary<string, Airline> Airlines { get; } = new();
     public Airport? CurrentAirport { get; private set; }
 
-    public GameContentManager(ContentManager content) => _content = content;
+    public LoadingManager(ContentManager content) => _content = content;
 
     public void LoadAllContent()
     {
         LoadAirlines();
-        LoadAirport("EGCC");
+        LoadAirport("LPMA");
     }
 
     private void LoadAirlines()
@@ -38,7 +38,25 @@ public class GameContentManager
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         options.Converters.Add(new Vector2JsonConverter());
         CurrentAirport = JsonSerializer.Deserialize<Airport>(File.ReadAllText(path), options);
+
+        if (CurrentAirport == null) return;
+
+        // Link gates to their pushback nodes
+        foreach (var gate in CurrentAirport.Gates)
+        {
+            // Expecting JSON to have PushbackNodeId
+            var pushbackIdProp = gate.GetType().GetProperty("PushbackNodeId");
+            if (pushbackIdProp != null)
+            {
+                string nodeId = pushbackIdProp.GetValue(gate)?.ToString() ?? "";
+                if (!string.IsNullOrEmpty(nodeId) && CurrentAirport.Nodes.TryGetValue(nodeId, out var node))
+                {
+                    gate.PushbackNode = node;
+                }
+            }
+        }
     }
+
 }
 
 public class Vector2JsonConverter : JsonConverter<Vector2>

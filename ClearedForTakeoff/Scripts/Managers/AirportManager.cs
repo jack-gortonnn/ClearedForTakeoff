@@ -7,13 +7,13 @@ using System.Linq;
 public class AirportManager
 {
     private readonly List<Aircraft> _fleet = new();
-    private readonly AircraftSpriteManager _spriteManager;
+    private readonly SpriteManager _spriteManager;
     private readonly Dictionary<string, Airline> _airlines;
     private readonly Airport _airport;
 
     public IReadOnlyList<Aircraft> Fleet => _fleet.AsReadOnly();
 
-    public AirportManager(AircraftSpriteManager spriteManager,
+    public AirportManager(SpriteManager spriteManager,
                           Dictionary<string, Airline> airlines,
                           Airport airport)
     {
@@ -23,6 +23,13 @@ public class AirportManager
 
         Debug.WriteLine($"[AirportManager] Initializing for {_airport.ICAO ?? "NULL"}");
         SpawnTestAircraft(_airport.ICAO);
+    }
+
+    private int GetSafeLiveryIndex(string type, int requested)
+    {
+        if (_spriteManager.Sheets.TryGetValue(type, out var sheet))
+            return Math.Clamp(requested, 0, sheet.Total - 1);
+        return 0;
     }
 
     private void SpawnTestAircraft(string ICAO)
@@ -48,16 +55,14 @@ public class AirportManager
             var aircraftTypes = airline.Fleet.Keys.ToList();
             var aircraftType = aircraftTypes[random.Next(aircraftTypes.Count)];
 
-            int liveryIndex = airline.Fleet[aircraftType];
-            if (_spriteManager.GetAllAircraftTypes().TryGetValue(aircraftType, out var aircraftData))
-            {
-                liveryIndex = Math.Clamp(liveryIndex, 0, aircraftData.TotalSprites - 1);
-            }
+            int liveryIndex = GetSafeLiveryIndex(aircraftType, airline.Fleet[aircraftType]);
 
             string flightNumber = $"{airline.Code}{random.Next(1, 999):D3}";
             string destination = airline.Routes[ICAO].Count > 0
                 ? airline.Routes[ICAO][random.Next(airline.Routes[ICAO].Count)]
                 : "XXXX";
+
+            var (tex, src, width, height) = _spriteManager.GetSprite(aircraftType, liveryIndex);
 
             var plane = new Aircraft(
                 aircraftType: aircraftType,
@@ -65,7 +70,10 @@ public class AirportManager
                 airlineName: airline.Name,
                 callsign: airline.Callsign,
                 position: gate.Position,
-                spriteIndex: liveryIndex
+                spriteIndex: liveryIndex,
+                aircraftTexture: tex,
+                sourceRect: src,
+                boundingBox: new Rectangle(0, 0, width, height)
             )
             {
                 FlightNumber = flightNumber,

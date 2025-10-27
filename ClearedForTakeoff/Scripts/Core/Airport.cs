@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Airport
 {
     public string ICAO { get; init; } = "";
-    public string ATIS { get; init; } 
+    public string ATIS { get; init; }
 
     public List<Gate> Gates { get; init; } = new();
     public List<Runway> Runways { get; init; } = new();
@@ -49,7 +49,7 @@ public class Airport
         public string Name { get; init; } = "";
         public Vector2 Start { get; init; }
         public Vector2 End { get; init; }
-        public  GroundNode HoldingNode { get; set; }
+        public GroundNode HoldingNode { get; set; }
         public GroundNode LineUpNode { get; set; }
         public float Heading => MathHelper.ToDegrees((float)Math.Atan2(End.Y - Start.Y, End.X - Start.X));
         public float Length => Vector2.Distance(Start, End);
