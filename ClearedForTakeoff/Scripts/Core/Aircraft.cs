@@ -1,120 +1,41 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Microsoft.Xna.Framework.Graphics;
-
-public enum AircraftState
-{
-    AtGate,
-    PushingBack,
-    Taxiing,
-    HoldingShort,
-    LineUpAndWait,
-    TakeoffRoll,
-    Airborne,
-    FinalApproach,
-    Landing,
-    VacatingRunway,
-    TaxiToGate
-}
+using System;
 
 public class Aircraft
 {
-    public string AircraftType { get; init; }
-    public string AirlineCode { get; init; }
-    public string AirlineName { get; init; }
-    public string Callsign { get; set; }
-    public string FlightNumber { get; set; } = "";
-    public string Destination { get; set; } = "";
-    public string AssignedGate { get; set; }
+    // Core components
+    public AircraftIdentity Identity { get; }
+    public AircraftMovement Movement { get; }
+    public AircraftSprite Sprite { get; }
+    public AircraftStateMachine State { get; }
+    public bool IsSelected { get; set; }
 
-    public Vector2 Position { get; set; }
-    public float Heading { get; set; } = 0f;
-    public float Speed { get; set; } = 10f;
-    public float Altitude { get; set; } = 0f;
-
-    public Texture2D AircraftTexture { get; set; }
-    public int SpriteIndex { get; init; }
-    public Rectangle BoundingBox { get; init; } = new(0, 0, 40, 40);
-    public Rectangle SourceRect { get; set; }
-
-    public bool IsSelected { get; set; } = false;
-    public AircraftState State { get; private set; } = AircraftState.AtGate;
-
-    public Vector2 Velocity;
-    public float Acceleration = 0.3f;
-    public float MaxSpeed = 5f;
-
-    public Aircraft(string aircraftType, string airlineCode, string airlineName, string callsign,
-                    Vector2 position, int spriteIndex, Texture2D aircraftTexture, Rectangle sourceRect, Rectangle boundingBox)
+    // Constructor
+    public Aircraft(LoadingManager.AircraftType aircraftType, Vector2 spawnPosition, float initialHeading, int liveryIndex)
     {
-        AircraftType = aircraftType;
-        AirlineCode = airlineCode;
-        AirlineName = airlineName;
-        Callsign = callsign;
-        Position = position;
-        SpriteIndex = spriteIndex;
-        AircraftTexture = aircraftTexture;
-        SourceRect = sourceRect;
-        BoundingBox = boundingBox;
+        Identity = new AircraftIdentity(aircraftType.ICAO, aircraftType.DisplayName);
+
+        Movement = new AircraftMovement(this, spawnPosition, Vector2.Zero, initialHeading, aircraftType.Acceleration, aircraftType.MaxSpeed);
+
+        Sprite = new AircraftSprite(aircraftType.SpriteSheet, aircraftType.SpriteWidth, aircraftType.SpriteLength, liveryIndex);
+
+        State = new AircraftStateMachine(this);
+
+        IsSelected = false;
     }
 
-    public Rectangle WorldBoundingBox =>
+    public void Update(GameTime gameTime)
+    {
+        Movement.Update(gameTime);
+        State.Update(gameTime);
+    }
+
+    public Rectangle CollisionBox =>
         new Rectangle(
-            (int)(Position.X - BoundingBox.Width * 0.5f),
-            (int)(Position.Y - BoundingBox.Height * 0.5f),
-            BoundingBox.Width,
-            BoundingBox.Height);
-
-
-    public void SetState(AircraftState newState)
-    {
-        if (State == newState) return;
-
-        Console.WriteLine($"[STATE] {FlightNumber} | {State} → {newState}");
-        State = newState;
-    }
-
-    public void Update()
-    {
-        if (State == AircraftState.PushingBack)
-        {
-            Position += new Vector2(1, 0);
-        }
-    }
-
-    public void MoveToPosition(Point targetPosition)
-    {
-        Vector2 target = new(targetPosition.X, targetPosition.Y);
-        Vector2 toTarget = target - Position;
-        float distance = toTarget.Length();
-
-        if (distance <= 1f)
-        {
-            Position = target;
-            Velocity = Vector2.Zero;
-            return;
-        }
-
-        Vector2 desiredDir = Vector2.Normalize(toTarget);
-        Vector2 desiredVel = desiredDir * MaxSpeed;
-        Velocity = Vector2.Lerp(Velocity, desiredVel, Acceleration * 0.1f);
-
-        if (Velocity.Length() > MaxSpeed)
-            Velocity = Vector2.Normalize(Velocity) * MaxSpeed;
-
-        Position += Velocity;
-
-        if (Velocity.LengthSquared() > 0.001f)
-        {
-            float targetHeading = MathHelper.ToDegrees((float)Math.Atan2(Velocity.Y, Velocity.X)) + 90f;
-            float current = (Heading + 360f) % 360f;
-            float targetH = (targetHeading + 360f) % 360f;
-            float diff = ((targetH - current + 540f) % 360f) - 180f;
-
-            float turnRate = 5f + (10f - Velocity.Length());
-            diff = Math.Clamp(diff, -turnRate, turnRate);
-
-            Heading = current + diff;
-        }
-    }
+            (int)(Movement.Position.X - Sprite.AircraftRect.Width * 0.5f),
+            (int)(Movement.Position.Y - Sprite.AircraftRect.Height * 0.5f),
+            Sprite.AircraftRect.Width,
+            Sprite.AircraftRect.Height
+        );
 }

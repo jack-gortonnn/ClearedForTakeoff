@@ -9,14 +9,12 @@ public class Game1 : Game
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch = null!;
 
-    private SpriteManager _spriteManager = null!;
     private LoadingManager _loadingManager = null!;
     private AirportManager _airportManager = null!;
-    private SpriteRenderer _renderer = null!;
 
     private SpriteFont _consolas = null!;
     private string _clicked = string.Empty;
-    private Aircraft _selectedPlane;
+    private Aircraft? _selectedPlane;
 
     public Game1()
     {
@@ -40,17 +38,18 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        // Load all content via loadingManager
         _loadingManager = new LoadingManager(Content);
         _loadingManager.LoadAllContent();
 
-        _spriteManager = new SpriteManager(this);
+        // Initialize airportManager using loaded content
         _airportManager = new AirportManager(
-            _spriteManager,
             _loadingManager.Airlines,
-            _loadingManager.CurrentAirport);
+            _loadingManager.CurrentAirport,
+            _loadingManager
+        );
 
         _consolas = Content.Load<SpriteFont>("Consolas");
-        _renderer = new SpriteRenderer(_spriteBatch, _spriteManager, _consolas);
     }
 
     protected override void Update(GameTime gameTime)
@@ -60,82 +59,93 @@ public class Game1 : Game
         if (InputManager.Pressed(Keys.Escape))
             Exit();
 
-        if (InputManager.Pressed(Keys.P))
-        {
-            if (_selectedPlane == null)
-                _clicked = "Click a plane first";
-            else if (_selectedPlane.State != AircraftState.AtGate)
-                _clicked = "Not at gate";
-            else
-            {
-                _selectedPlane.SetState(AircraftState.PushingBack);
-                _clicked = $"Pushback {_selectedPlane.FlightNumber}";
-            }
-        }
+        HandlePlaneInput();
 
-        if (InputManager.Pressed(Keys.S))
-        {
-            if (_selectedPlane == null)
-                _clicked = "Click a plane first";
-            else if (_selectedPlane.State != AircraftState.PushingBack)
-                _clicked = "Can't stop a plane that's not pushing back!";
-            else
-            {
-                _selectedPlane.SetState(AircraftState.Taxiing);
-                _clicked = $"Taxx {_selectedPlane.FlightNumber}";
-            }
-        }
-
+        // Update all aircraft
         foreach (var plane in _airportManager.Fleet)
         {
-            plane.Update();
-            plane.IsSelected = (plane == _selectedPlane); // unfortunately have to do this to keep selection after update
+            plane.Update(gameTime);
+            plane.IsSelected = plane == _selectedPlane;
         }
 
+        // Handle selection via mouse
         if (InputManager.ClickedLeft())
             HandleClick(InputManager.MousePosition);
 
         base.Update(gameTime);
     }
 
+    private void HandlePlaneInput()
+    {
+        if (_selectedPlane == null)
+            return;
+
+        if (InputManager.Pressed(Keys.P))
+        {
+            if (_selectedPlane.State.CurrentState != AircraftState.AtGate)
+            {
+                _clicked = "Not at gate";
+            }
+            else
+            {
+                _selectedPlane.State.SetState(AircraftState.PushingBack);
+                _clicked = $"Pushback {_selectedPlane.Identity.FlightNumber}";
+            }
+        }
+
+        if (InputManager.Pressed(Keys.S))
+        {
+            if (_selectedPlane.State.CurrentState != AircraftState.PushingBack)
+            {
+                _clicked = "Can't stop a plane that's not pushing back!";
+            }
+            else
+            {
+                _selectedPlane.State.SetState(AircraftState.Taxiing);
+                _clicked = $"Taxi {_selectedPlane.Identity.FlightNumber}";
+            }
+        }
+    }
+
     private void HandleClick(Point mousePos)
     {
-        Debug.WriteLine("[CLICK EVENT]");
-
         _selectedPlane = null;
         _clicked = "Clicked empty space";
 
         foreach (var plane in _airportManager.Fleet)
         {
-            if (plane.WorldBoundingBox.Contains(mousePos))
+            if (plane.CollisionBox.Contains(mousePos))
             {
                 _selectedPlane = plane;
                 plane.IsSelected = true;
-                string gate = plane.AssignedGate ?? "?";
-                _clicked = $"{plane.AirlineName} {plane.FlightNumber} | {plane.AircraftType} | {plane.Destination} | {plane.State} | GATE {gate}";
-                Debug.WriteLine($"[SELECT] {plane.FlightNumber} at ({plane.Position.X}, {plane.Position.Y}) = Gate {gate}");
+                string gate = plane.Identity.AssignedGate ?? "?";
+                _clicked = $"{plane.Identity.AirlineName} {plane.Identity.FlightNumber} | {plane.Identity.AircraftType} | {plane.Identity.Destination} | {plane.State.CurrentState} | GATE {gate}";
+                Debug.WriteLine($"[SELECT] {plane.Identity.FlightNumber} at ({plane.Movement.Position.X}, {plane.Movement.Position.Y}) = Gate {gate}");
                 break;
             }
         }
     }
 
-
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _renderer.DrawAircraft(_airportManager.Fleet, _selectedPlane);
-
         _spriteBatch.Begin();
 
+        // Draw all aircraft
+        foreach (var plane in _airportManager.Fleet)
+        {
+            Color tint = plane.IsSelected ? Color.White : Color.Gray;
+            plane.Sprite.Draw(_spriteBatch, plane.Movement.Position, plane.Movement.Heading, tint);
+        }
+
+        // Draw debug info
         string info = _loadingManager.CurrentAirport != null
             ? $"Airport: {_loadingManager.CurrentAirport.ICAO} | Planes: {_airportManager.Fleet.Count}"
             : "NO AIRPORT LOADED";
         _spriteBatch.DrawString(_consolas, info, new Vector2(5, 5), Color.Cyan);
 
         var mouse = InputManager.MousePosition;
-        _spriteBatch.DrawString(_consolas,
-            $"Mouse: {mouse.X}, {mouse.Y}",
-            new Vector2(5, 25), Color.Lime);
+        _spriteBatch.DrawString(_consolas, $"Mouse: {mouse.X}, {mouse.Y}", new Vector2(5, 25), Color.Lime);
 
         if (!string.IsNullOrEmpty(_clicked))
             _spriteBatch.DrawString(_consolas, _clicked, new Vector2(5, 45), Color.Yellow);

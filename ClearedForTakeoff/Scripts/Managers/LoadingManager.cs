@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -8,8 +9,29 @@ using System.Text.Json.Serialization;
 public class LoadingManager
 {
     private readonly ContentManager _content;
+
     public Dictionary<string, Airline> Airlines { get; } = new();
     public Airport? CurrentAirport { get; private set; }
+
+    // Aircraft definitions including preloaded sprites
+    public class AircraftType
+    {
+        public string ICAO { get; set; } = "";
+        public string DisplayName { get; set; } = "";
+        public string SpritePath { get; set; } = "";
+        public int SpriteWidth { get; set; }
+        public int SpriteLength { get; set; }
+        public int SpriteFrames { get; set; }
+        public float MaxSpeed { get; set; }
+        public float Acceleration { get; set; }
+
+        // cached sprite sheet
+        [JsonIgnore]
+        public Texture2D SpriteSheet { get; set; }
+    }
+
+
+    public Dictionary<string, AircraftType> AircraftTypes { get; } = new();
 
     public LoadingManager(ContentManager content) => _content = content;
 
@@ -17,6 +39,7 @@ public class LoadingManager
     {
         LoadAirlines();
         LoadAirport("LPMA");
+        LoadAircraft();
     }
 
     private void LoadAirlines()
@@ -27,7 +50,10 @@ public class LoadingManager
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         var list = JsonSerializer.Deserialize<List<Airline>>(File.ReadAllText(path), options);
         if (list != null)
-            foreach (var a in list) Airlines[a.Code] = a;
+        {
+            foreach (var a in list)
+                Airlines[a.Code] = a;
+        }
     }
 
     private void LoadAirport(string icao)
@@ -41,10 +67,9 @@ public class LoadingManager
 
         if (CurrentAirport == null) return;
 
-        // Link gates to their pushback nodes
+        // Link gates to pushback nodes
         foreach (var gate in CurrentAirport.Gates)
         {
-            // Expecting JSON to have PushbackNodeId
             var pushbackIdProp = gate.GetType().GetProperty("PushbackNodeId");
             if (pushbackIdProp != null)
             {
@@ -57,6 +82,24 @@ public class LoadingManager
         }
     }
 
+    private void LoadAircraft()
+    {
+        string path = Path.Combine(_content.RootDirectory, "Data", "aircraft.json");
+        if (!File.Exists(path)) return;
+
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var list = JsonSerializer.Deserialize<List<AircraftType>>(File.ReadAllText(path), options);
+
+        if (list != null)
+        {
+            foreach (var def in list)
+            {
+                // Preload the sprite sheet
+                def.SpriteSheet = _content.Load<Texture2D>(def.SpritePath);
+                AircraftTypes[def.ICAO] = def;
+            }
+        }
+    }
 }
 
 public class Vector2JsonConverter : JsonConverter<Vector2>
@@ -75,6 +118,7 @@ public class Vector2JsonConverter : JsonConverter<Vector2>
         }
         return new Vector2(x, y);
     }
+
     public override void Write(Utf8JsonWriter w, Vector2 v, JsonSerializerOptions o)
     {
         w.WriteStartObject();
