@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 public class Game1 : Game
 {
@@ -16,6 +17,10 @@ public class Game1 : Game
     private string _clicked = string.Empty;
     private Aircraft? _selectedPlane;
 
+    private int _frameCount = 0;
+    private double _elapsedTime = 0;
+    private int _fps = 0;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -25,10 +30,12 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        Debug.WriteLine("[INIT] Game initialized – Debug console active");
 
+        // set window size and disable VSync
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
+        IsFixedTimeStep = false;
+        _graphics.SynchronizeWithVerticalRetrace = false;
         _graphics.ApplyChanges();
 
         base.Initialize();
@@ -54,6 +61,16 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        _elapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
+        _frameCount++;
+
+        if (_elapsedTime >= 1.0)
+        {
+            _fps = _frameCount;
+            _frameCount = 0;
+            _elapsedTime -= 1.0;
+        }
+
         InputManager.Update();
 
         if (InputManager.Pressed(Keys.Escape))
@@ -71,6 +88,8 @@ public class Game1 : Game
         // Handle selection via mouse
         if (InputManager.ClickedLeft())
             HandleClick(InputManager.MousePosition);
+
+        Debug.WriteLine($"[UPDATE] Game updated at {gameTime.ElapsedGameTime.Microseconds}");
 
         base.Update(gameTime);
     }
@@ -148,6 +167,13 @@ public class Game1 : Game
 
         if (!string.IsNullOrEmpty(_clicked))
             _spriteBatch.DrawString(_consolas, _clicked, new Vector2(5, 45), Color.Yellow);
+
+        _spriteBatch.DrawString(
+            _consolas, 
+            $"FPS: {_fps}",
+            new Vector2(5, 65),
+            Color.White
+        );
 
         _spriteBatch.End();
 

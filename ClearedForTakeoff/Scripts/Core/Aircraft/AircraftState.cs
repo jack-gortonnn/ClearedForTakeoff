@@ -38,8 +38,8 @@ public class AircraftStateMachine
     {
         if (CurrentState == AircraftState.PushingBack)
         {
-            // Simple pushback logic
-            _aircraft.Movement.TestPush();
+            _aircraft.Movement.Pushback(gameTime);
+            _aircraft.Identity.AssignedGate = null;
         }
     }
 }

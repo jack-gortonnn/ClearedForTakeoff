@@ -1,33 +1,56 @@
 {
-  "ICAO": "EGCC",
-  "Center": {
-    "X": 640,
-    "Y": 360
-  },
+  "ICAO": "LPMA",
+  "Center": [ 640, 360 ],
   "Gates": [
     {
       "Name": "G1",
-      "Position": {
-        "X": 500,
-        "Y": 300
-      },
-      "Orientation": 45
+      "Position": [ 500, 300 ],
+      "Orientation": 90
     },
     {
       "Name": "G2",
-      "Position": {
-        "X": 700,
-        "Y": 300
-      },
+      "Position": [ 700, 300 ],
       "Orientation": 270
     },
     {
       "Name": "G3",
-      "Position": {
-        "X": 600,
-        "Y": 450
-      },
+      "Position": [ 600, 450 ],
       "Orientation": 0
+    },
+    {
+      "Name": "G4",
+      "Position": [ 550, 200 ],
+      "Orientation": 90
+    },
+    {
+      "Name": "G5",
+      "Position": [ 730, 200 ],
+      "Orientation": 270
+    },
+    {
+      "Name": "G6",
+      "Position": [ 500, 500 ],
+      "Orientation": 0
+    },
+    {
+      "Name": "G7",
+      "Position": [ 780, 400 ],
+      "Orientation": 270
+    },
+    {
+      "Name": "G8",
+      "Position": [ 620, 550 ],
+      "Orientation": 0
+    },
+    {
+      "Name": "G9",
+      "Position": [ 560, 380 ],
+      "Orientation": 90
+    },
+    {
+      "Name": "G10",
+      "Position": [ 720, 380 ],
+      "Orientation": 270
     }
   ],
   "Runways": [],

@@ -24,8 +24,14 @@ public class AircraftMovement
     { 
     }
 
-    public void TestPush()
+    public void Pushback(GameTime gameTime)
     {
-        Position += new Vector2(0, -10f); // Simple pushback logic
+        Velocity = new Vector2(
+            (float)Math.Cos((Heading - 90f) * Math.PI / 180),
+            (float)Math.Sin((Heading - 90f) * Math.PI / 180)
+        ) * -0.5f * MaxSpeed;
+
+        Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
+
 }
