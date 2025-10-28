@@ -76,6 +76,7 @@ public class AirportManager
             plane.Identity.Callsign = airline.Callsign;
             plane.Identity.FlightNumber = flightNumber;
             plane.Identity.Destination = destination;
+            plane.Identity.AssignedGate = gate.Name;
 
             // Set initial state
             plane.State.SetState(AircraftState.AtGate);

@@ -134,8 +134,7 @@ public class Game1 : Game
         // Draw all aircraft
         foreach (var plane in _airportManager.Fleet)
         {
-            Color tint = plane.IsSelected ? Color.White : Color.Gray;
-            plane.Sprite.Draw(_spriteBatch, plane.Movement.Position, plane.Movement.Heading, tint);
+            plane.Sprite.Draw(_spriteBatch);
         }
 
         // Draw debug info

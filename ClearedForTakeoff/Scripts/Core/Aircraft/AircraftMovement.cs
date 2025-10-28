@@ -21,15 +21,11 @@ public class AircraftMovement
     }
 
     public void Update(GameTime gameTime)
-    {
-        // empty for now
+    { 
     }
 
     public void TestPush()
     {
-        // Simple pushback logic: move backwards along the heading
-        float radians = MathHelper.ToRadians(Heading + 180); // Pushback opposite to heading
-        Vector2 pushbackDirection = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
-        Velocity = pushbackDirection * 0.5f; // Pushback speed
+        Position += new Vector2(0, -10f); // Simple pushback logic
     }
 }

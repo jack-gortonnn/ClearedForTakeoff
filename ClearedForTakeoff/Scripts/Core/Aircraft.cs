@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
 public class Aircraft
 {
@@ -18,7 +16,7 @@ public class Aircraft
 
         Movement = new AircraftMovement(this, spawnPosition, Vector2.Zero, initialHeading, aircraftType.Acceleration, aircraftType.MaxSpeed);
 
-        Sprite = new AircraftSprite(aircraftType.SpriteSheet, aircraftType.SpriteWidth, aircraftType.SpriteLength, liveryIndex);
+        Sprite = new AircraftSprite(this, aircraftType.SpriteSheet, aircraftType.SpriteWidth, aircraftType.SpriteLength, liveryIndex);
 
         State = new AircraftStateMachine(this);
 

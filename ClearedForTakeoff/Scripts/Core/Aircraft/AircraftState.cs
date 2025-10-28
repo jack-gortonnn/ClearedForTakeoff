@@ -36,6 +36,10 @@ public class AircraftStateMachine
 
     public void Update(GameTime gameTime)
     {
-        // add diff states
+        if (CurrentState == AircraftState.PushingBack)
+        {
+            // Simple pushback logic
+            _aircraft.Movement.TestPush();
+        }
     }
 }
