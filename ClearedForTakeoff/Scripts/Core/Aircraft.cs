@@ -10,11 +10,11 @@ public class Aircraft
     public bool IsSelected { get; set; }
 
     // Constructor
-    public Aircraft(LoadingManager.AircraftType aircraftType, Vector2 spawnPosition, float initialHeading, int liveryIndex)
+    public Aircraft(LoadingManager.AircraftType aircraftType, Vector2 spawnPosition, float initialHeading, int liveryIndex, LoadingManager loadingManager)
     {
         Identity = new AircraftIdentity(aircraftType.ICAO, aircraftType.DisplayName);
 
-        Movement = new AircraftMovement(this, spawnPosition, Vector2.Zero, initialHeading, aircraftType.Acceleration, aircraftType.MaxSpeed);
+        Movement = new AircraftMovement(this, spawnPosition, Vector2.Zero, initialHeading, aircraftType.Acceleration, aircraftType.MaxSpeed, loadingManager);
 
         Sprite = new AircraftSprite(this, aircraftType.SpriteSheet, aircraftType.SpriteWidth, aircraftType.SpriteLength, liveryIndex);
 
@@ -23,7 +23,7 @@ public class Aircraft
         IsSelected = false;
     }
 
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, Airport currentAirport)
     {
         Movement.Update(gameTime);
         State.Update(gameTime);

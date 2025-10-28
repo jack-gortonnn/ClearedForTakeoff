@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml.Linq;
 
 public class AirportManager
 {
@@ -24,6 +25,8 @@ public class AirportManager
         Debug.WriteLine($"[AirportManager] Initializing for {_airport.ICAO ?? "NULL"}");
         SpawnTestAircraft(_airport.ICAO);
     }
+
+
 
     private void SpawnTestAircraft(string ICAO)
     {
@@ -68,7 +71,7 @@ public class AirportManager
                 : "XXXX";
 
             // Create the aircraft
-            var plane = new Aircraft(def, gate.Position, gate.Orientation, liveryIndex);
+            var plane = new Aircraft(def, gate.Position, gate.Orientation, liveryIndex, _loadingManager);
 
             // Fill identity info
             plane.Identity.AirlineCode = airline.Code;
@@ -87,5 +90,4 @@ public class AirportManager
                             $"→ Gate {gate.Name} at ({gate.Position.X}, {gate.Position.Y}) | Heading: {gate.Orientation}°");
         }
     }
-
 }

@@ -1,295 +1,254 @@
 {
   "ICAO": "LPMA",
   "Center": [
-    2670,
-    2400
+    2786,
+    2038
   ],
   "ImagePath": "sprites/airports/LPMA",
   "Gates": [
     {
       "Name": "G1",
       "Position": [
-        -486,
-        -128
+        -600,
+        238
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G2",
       "Position": [
-        -400,
-        -128
+        -514,
+        242
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G3",
       "Position": [
-        -320,
-        -126
+        -438,
+        248
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G4",
       "Position": [
-        -238,
-        -126
+        -350,
+        224
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G5",
       "Position": [
-        -154,
-        -122
+        -268,
+        228
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G6",
       "Position": [
-        -74,
-        -118
+        -186,
+        232
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G7",
       "Position": [
-        16,
-        -112
+        -98,
+        238
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G8",
       "Position": [
-        108,
-        -108
+        -10,
+        242
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G9",
       "Position": [
-        198,
-        -104
+        86,
+        248
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G10",
       "Position": [
-        290,
-        -102
+        176,
+        252
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G11",
       "Position": [
-        378,
-        -82
+        264,
+        280
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G12",
       "Position": [
-        470,
-        -78
+        358,
+        282
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G13",
       "Position": [
-        576,
-        -74
+        458,
+        286
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G14",
       "Position": [
-        678,
-        -72
+        562,
+        288
       ],
-      "Orientation": 184
+      "Orientation": 183
     },
     {
       "Name": "G15",
       "Position": [
-        774,
-        -70
+        666,
+        290
       ],
-      "Orientation": 184
+      "Orientation": 183
     }
   ],
-  "TaxiNodes": [
+  "PushbackNodes": [
     {
-      "Name": "N1",
+      "Name": "P1",
       "Position": [
-        -478,
-        -296
-      ]
+        -536,
+        102
+      ],
+      "Orientation": 289
     },
     {
-      "Name": "N2",
+      "Name": "P2",
       "Position": [
-        -394,
-        -256
-      ]
+        -436,
+        106
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N3",
+      "Name": "P3",
       "Position": [
-        -312,
-        -252
-      ]
+        -350,
+        110
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N4",
+      "Name": "P4",
       "Position": [
-        -230,
-        -248
-      ]
+        -264,
+        112
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N5",
+      "Name": "P5",
       "Position": [
-        -146,
-        -246
-      ]
+        -184,
+        116
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N6",
+      "Name": "P6",
       "Position": [
-        -62,
-        -244
-      ]
+        -94,
+        118
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N7",
+      "Name": "P7",
       "Position": [
-        24,
-        -242
-      ]
+        -4,
+        120
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N8",
+      "Name": "P8",
       "Position": [
-        118,
-        -238
-      ]
+        88,
+        122
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N9",
+      "Name": "P9",
       "Position": [
-        208,
-        -236
-      ]
+        182,
+        126
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N10",
+      "Name": "P10",
       "Position": [
-        300,
-        -232
-      ]
+        272,
+        128
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N11",
+      "Name": "P11",
       "Position": [
-        390,
-        -230
-      ]
+        362,
+        132
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N12",
+      "Name": "P12",
       "Position": [
-        482,
-        -226
-      ]
+        468,
+        134
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N13",
+      "Name": "P13",
       "Position": [
-        586,
-        -222
-      ]
+        568,
+        138
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N14",
+      "Name": "P14",
       "Position": [
-        690,
-        -220
-      ]
+        674,
+        140
+      ],
+      "Orientation": 273
     },
     {
-      "Name": "N15",
+      "Name": "P15",
       "Position": [
-        792,
-        -218
-      ]
+        764,
+        142
+      ],
+      "Orientation": 273
     }
   ],
-  "Taxiways": [
-    [
-      "N1",
-      "N2"
-    ],
-    [
-      "N2",
-      "N3"
-    ],
-    [
-      "N3",
-      "N4"
-    ],
-    [
-      "N4",
-      "N5"
-    ],
-    [
-      "N5",
-      "N6"
-    ],
-    [
-      "N6",
-      "N7"
-    ],
-    [
-      "N7",
-      "N8"
-    ],
-    [
-      "N8",
-      "N9"
-    ],
-    [
-      "N9",
-      "N10"
-    ],
-    [
-      "N10",
-      "N11"
-    ],
-    [
-      "N11",
-      "N12"
-    ],
-    [
-      "N12",
-      "N13"
-    ],
-    [
-      "N13",
-      "N14"
-    ],
-    [
-      "N14",
-      "N15"
-    ]
-  ]
+  "TaxiNodes": [],
+  "Taxiways": []
 }

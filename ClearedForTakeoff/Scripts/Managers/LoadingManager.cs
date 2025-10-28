@@ -67,31 +67,30 @@ public class LoadingManager
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         options.Converters.Add(new Vector2ArrayConverter());
         CurrentAirport = JsonSerializer.Deserialize<Airport>(File.ReadAllText(path), options);
+
         if (CurrentAirport == null) return;
 
-        // Build node lookup
+        // Load texture
+        CurrentAirport.Image = _content.Load<Texture2D>(CurrentAirport.ImagePath);
+
+        // Build node lookup (PushbackNodes + TaxiNodes)
         CurrentAirport.BuildNodeLookup();
 
-        // Link gates to pushback nodes
+        // Link gates to their pushback nodes
         foreach (var gate in CurrentAirport.Gates)
         {
-            if (!string.IsNullOrEmpty(gate.PushbackNodeId) &&
-                CurrentAirport.Nodes.TryGetValue(gate.PushbackNodeId, out var node))
-            {
+            string pushbackName = gate.Name.StartsWith("G")
+                ? "P" + gate.Name.Substring(1)
+                : gate.Name;
+
+            if (CurrentAirport.Nodes.TryGetValue(pushbackName, out var node))
                 gate.PushbackNode = node;
-            }
         }
 
-        // Load background texture if specified
-        if (!string.IsNullOrEmpty(CurrentAirport.ImagePath))
-        {
-            CurrentAirport.Image = _content.Load<Texture2D>(CurrentAirport.ImagePath);
-        }
-
-        // Set camera to airport center
-        _camera.Position = new Vector2 (0,0);
-
+        // Center camera
+        _camera.Position = new Vector2(0,0);
     }
+
 
 
     private void LoadAircraft()

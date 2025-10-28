@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿// src/Core/AircraftStateMachine.cs
+using Microsoft.Xna.Framework;
 using System;
 
 public enum AircraftState
@@ -19,27 +20,28 @@ public enum AircraftState
 public class AircraftStateMachine
 {
     private readonly Aircraft _aircraft;
-    public AircraftState CurrentState { get; private set; }
+    private readonly LoadingManager _loadingManager;  // for airport data
+
+    public AircraftState CurrentState { get; private set; } = AircraftState.AtGate;
 
     public AircraftStateMachine(Aircraft aircraft)
     {
         _aircraft = aircraft;
-        CurrentState = AircraftState.AtGate;
     }
 
     public void SetState(AircraftState newState)
     {
         if (CurrentState == newState) return;
+
+        var old = CurrentState;
         CurrentState = newState;
-        Console.WriteLine($"[STATE] {_aircraft.Identity.FlightNumber} | {CurrentState} to {newState}");
+
+        System.Diagnostics.Debug.WriteLine(
+            $"[STATE] {_aircraft.Identity.FlightNumber} | {old} → {newState}");
     }
 
     public void Update(GameTime gameTime)
     {
-        if (CurrentState == AircraftState.PushingBack)
-        {
-            _aircraft.Movement.Pushback(gameTime);
-            _aircraft.Identity.AssignedGate = null;
-        }
+
     }
 }

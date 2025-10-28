@@ -17,7 +17,7 @@ public class Game1 : Game
 
     private SpriteFont _consolas = null!;
     private string _clicked = string.Empty;
-    private Aircraft? _selectedPlane;
+    private Aircraft _selectedPlane;
 
     private int _frameCount = 0;
     private double _elapsedTime = 0;
@@ -131,7 +131,7 @@ public class Game1 : Game
         // Update all aircraft
         foreach (var plane in _airportManager.Fleet)
         {
-            plane.Update(gameTime);
+            plane.Update(gameTime, _loadingManager.CurrentAirport);
             plane.IsSelected = plane == _selectedPlane;
         }
 
@@ -261,6 +261,9 @@ public class Game1 : Game
 
             foreach (var gate in airport.Gates)
                 DrawPoint(gate.Position, Color.Green, 7);
+
+            foreach (var pushbackpoint in airport.PushbackNodes)
+                DrawPoint(pushbackpoint.Position, Color.Red, 6);
 
         }
 
