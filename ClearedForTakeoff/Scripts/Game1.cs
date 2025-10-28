@@ -10,8 +10,10 @@ public class Game1 : Game
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch = null!;
 
+    private UIManager _uiManager = null!;
     private LoadingManager _loadingManager = null!;
     private AirportManager _airportManager = null!;
+    private Camera2D _camera;
 
     private SpriteFont _consolas = null!;
     private string _clicked = string.Empty;
@@ -20,6 +22,13 @@ public class Game1 : Game
     private int _frameCount = 0;
     private double _elapsedTime = 0;
     private int _fps = 0;
+
+    private Vector2 worldPos;
+    private Vector2 screenPos;  
+
+    //debug
+    private Texture2D _pixel;
+
 
     public Game1()
     {
@@ -45,8 +54,11 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
+        _camera = new Camera2D(GraphicsDevice);
+
         // Load all content via loadingManager
-        _loadingManager = new LoadingManager(Content);
+        _loadingManager = new LoadingManager(Content, _camera);
         _loadingManager.LoadAllContent();
 
         // Initialize airportManager using loaded content
@@ -56,8 +68,43 @@ public class Game1 : Game
             _loadingManager
         );
 
+
+        _pixel = new Texture2D(GraphicsDevice, 1, 1);
+        _pixel.SetData(new[] { Color.White });
+
+
         _consolas = Content.Load<SpriteFont>("Consolas");
+
+        _uiManager = new UIManager(_consolas);
     }
+
+    private void DrawPoint(Vector2 position, Color color, int size = 6)
+    {
+        _spriteBatch.Draw(
+            _pixel,
+            new Rectangle((int)position.X - size / 2, (int)position.Y - size / 2, size, size),
+            color
+        );
+    }
+
+    private void DrawLine(Vector2 start, Vector2 end, Color color, int thickness = 2)
+    {
+        Vector2 edge = end - start;
+        float angle = (float)Math.Atan2(edge.Y, edge.X);
+        float length = edge.Length();
+
+        _spriteBatch.Draw(
+            _pixel,
+            new Rectangle((int)start.X, (int)start.Y, (int)length, thickness),
+            null,
+            color,
+            angle,
+            Vector2.Zero,
+            SpriteEffects.None,
+            0
+        );
+    }
+
 
     protected override void Update(GameTime gameTime)
     {
@@ -73,6 +120,9 @@ public class Game1 : Game
 
         InputManager.Update();
 
+        screenPos = InputManager.MousePosition.ToVector2();
+        worldPos = _camera.ScreenToWorld(screenPos);
+
         if (InputManager.Pressed(Keys.Escape))
             Exit();
 
@@ -87,7 +137,14 @@ public class Game1 : Game
 
         // Handle selection via mouse
         if (InputManager.ClickedLeft())
-            HandleClick(InputManager.MousePosition);
+        {
+            HandleClick(worldPos);
+        }
+
+
+        _camera.Update(gameTime);
+
+
 
         Debug.WriteLine($"[UPDATE] Game updated at {gameTime.ElapsedGameTime.Microseconds}");
 
@@ -112,7 +169,7 @@ public class Game1 : Game
             }
         }
 
-        if (InputManager.Pressed(Keys.S))
+        if (InputManager.Pressed(Keys.T))
         {
             if (_selectedPlane.State.CurrentState != AircraftState.PushingBack)
             {
@@ -126,14 +183,14 @@ public class Game1 : Game
         }
     }
 
-    private void HandleClick(Point mousePos)
+    private void HandleClick(Vector2 worldPos)
     {
         _selectedPlane = null;
         _clicked = "Clicked empty space";
 
         foreach (var plane in _airportManager.Fleet)
         {
-            if (plane.CollisionBox.Contains(mousePos))
+            if (plane.CollisionBox.Contains(worldPos))
             {
                 _selectedPlane = plane;
                 plane.IsSelected = true;
@@ -145,10 +202,68 @@ public class Game1 : Game
         }
     }
 
+
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
+
+        if (_loadingManager.CurrentAirport != null && _loadingManager.CurrentAirport.Image != null)
+        {
+            var airport = _loadingManager.CurrentAirport;
+            var bg = airport.Image;
+
+            float scale = 2f;
+            Vector2 origin = airport.Center / scale;
+
+
+            _spriteBatch.Draw(
+                bg,
+                Vector2.Zero,    // world coordinates (0,0)
+                null,
+                Color.White,
+                0f,
+                origin,          // origin = airport.Center / scale
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+
+
+
+        }
+
+
+
+
+
+
+        // Draw airport (debug)
+
+        if (_loadingManager.CurrentAirport != null)
+        {
+            var airport = _loadingManager.CurrentAirport;
+
+            foreach (var taxinode in airport.TaxiNodes)
+                DrawPoint(taxinode.Position, Color.Yellow, 5);
+
+            foreach (var taxiway in airport.Taxiways)
+            {
+                for (int i = 0; i < taxiway.Count - 1; i++)
+                {
+                    if (airport.Nodes.TryGetValue(taxiway[i], out var startNode) &&
+                        airport.Nodes.TryGetValue(taxiway[i + 1], out var endNode))
+                    {
+                        DrawLine(startNode.Position, endNode.Position, Color.Blue, 3);
+                    }
+                }
+            }
+
+            foreach (var gate in airport.Gates)
+                DrawPoint(gate.Position, Color.Green, 7);
+
+        }
+
 
         // Draw all aircraft
         foreach (var plane in _airportManager.Fleet)
@@ -156,26 +271,9 @@ public class Game1 : Game
             plane.Sprite.Draw(_spriteBatch);
         }
 
-        // Draw debug info
-        string info = _loadingManager.CurrentAirport != null
-            ? $"Airport: {_loadingManager.CurrentAirport.ICAO} | Planes: {_airportManager.Fleet.Count}"
-            : "NO AIRPORT LOADED";
-        _spriteBatch.DrawString(_consolas, info, new Vector2(5, 5), Color.Cyan);
-
-        var mouse = InputManager.MousePosition;
-        _spriteBatch.DrawString(_consolas, $"Mouse: {mouse.X}, {mouse.Y}", new Vector2(5, 25), Color.Lime);
-
-        if (!string.IsNullOrEmpty(_clicked))
-            _spriteBatch.DrawString(_consolas, _clicked, new Vector2(5, 45), Color.Yellow);
-
-        _spriteBatch.DrawString(
-            _consolas, 
-            $"FPS: {_fps}",
-            new Vector2(5, 65),
-            Color.White
-        );
-
         _spriteBatch.End();
+
+        _uiManager.Draw(_spriteBatch, _fps, screenPos, worldPos, _clicked);
 
         base.Draw(gameTime);
     }

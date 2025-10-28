@@ -9,6 +9,8 @@ public static class InputManager
     private static MouseState _currentMouse;
     private static MouseState _previousMouse;
 
+    private static int _scrollDelta;
+
     public static void Update()
     {
         _previousKeyboard = _currentKeyboard;
@@ -16,6 +18,8 @@ public static class InputManager
 
         _currentKeyboard = Keyboard.GetState();
         _currentMouse = Mouse.GetState();
+
+        _scrollDelta = _currentMouse.ScrollWheelValue - _previousMouse.ScrollWheelValue;
     }
 
     // --- Keyboard ---
@@ -37,8 +41,21 @@ public static class InputManager
         _currentMouse.RightButton == ButtonState.Pressed &&
         _previousMouse.RightButton == ButtonState.Released;
 
-    public static Point MousePosition => _currentMouse.Position;
+    public static bool HeldLeft() =>
+        _currentMouse.LeftButton == ButtonState.Pressed;
 
-    public static bool ScrollUp => _currentMouse.ScrollWheelValue > _previousMouse.ScrollWheelValue;
-    public static bool ScrollDown => _currentMouse.ScrollWheelValue < _previousMouse.ScrollWheelValue;
+    public static bool HeldRight() =>
+        _currentMouse.RightButton == ButtonState.Pressed;
+
+    public static Point MousePosition => _currentMouse.Position;
+    public static Point PreviousMousePosition => _previousMouse.Position;
+
+    public static Vector2 MousePositionF => _currentMouse.Position.ToVector2();
+    public static Vector2 MouseDelta =>
+        _currentMouse.Position.ToVector2() - _previousMouse.Position.ToVector2();
+
+    // --- Scroll ---
+    public static bool ScrolledUp => _scrollDelta > 0;
+    public static bool ScrolledDown => _scrollDelta < 0;
+    public static int ScrollDelta => _scrollDelta;
 }

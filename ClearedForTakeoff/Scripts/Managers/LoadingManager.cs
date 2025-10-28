@@ -10,6 +10,8 @@ public class LoadingManager
 {
     private readonly ContentManager _content;
 
+    public Camera2D _camera;
+
     public Dictionary<string, Airline> Airlines { get; } = new();
     public Airport? CurrentAirport { get; private set; }
 
@@ -30,7 +32,11 @@ public class LoadingManager
 
     public Dictionary<string, AircraftType> AircraftTypes { get; } = new();
 
-    public LoadingManager(ContentManager content) => _content = content;
+    public LoadingManager(ContentManager content, Camera2D camera)
+    {
+        _content = content;
+        _camera = camera;
+    }
 
     public void LoadAllContent()
     {
@@ -61,22 +67,32 @@ public class LoadingManager
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         options.Converters.Add(new Vector2ArrayConverter());
         CurrentAirport = JsonSerializer.Deserialize<Airport>(File.ReadAllText(path), options);
-
         if (CurrentAirport == null) return;
 
+        // Build node lookup
+        CurrentAirport.BuildNodeLookup();
+
+        // Link gates to pushback nodes
         foreach (var gate in CurrentAirport.Gates)
         {
-            var pushbackIdProp = gate.GetType().GetProperty("PushbackNodeId");
-            if (pushbackIdProp != null)
+            if (!string.IsNullOrEmpty(gate.PushbackNodeId) &&
+                CurrentAirport.Nodes.TryGetValue(gate.PushbackNodeId, out var node))
             {
-                string nodeId = pushbackIdProp.GetValue(gate)?.ToString() ?? "";
-                if (!string.IsNullOrEmpty(nodeId) && CurrentAirport.Nodes.TryGetValue(nodeId, out var node))
-                {
-                    gate.PushbackNode = node;
-                }
+                gate.PushbackNode = node;
             }
         }
+
+        // Load background texture if specified
+        if (!string.IsNullOrEmpty(CurrentAirport.ImagePath))
+        {
+            CurrentAirport.Image = _content.Load<Texture2D>(CurrentAirport.ImagePath);
+        }
+
+        // Set camera to airport center
+        _camera.Position = new Vector2 (0,0);
+
     }
+
 
     private void LoadAircraft()
     {

@@ -2,9 +2,9 @@
   {
     "ICAO": "A319",
     "DisplayName": "Airbus A319",
-    "SpritePath": "sprites/Aircraft/A319",
-    "SpriteWidth": 69,
-    "SpriteLength": 66,
+    "SpritePath": "sprites/aircraft/A319",
+    "SpriteWidth": 71,
+    "SpriteLength": 68,
     "SpriteFrames": 6,
     "MaxSpeed": 220.0,
     "Acceleration": 0.6
@@ -12,9 +12,9 @@
   {
     "ICAO": "A320",
     "DisplayName": "Airbus A320",
-    "SpritePath": "sprites/Aircraft/A320",
-    "SpriteWidth": 69,
-    "SpriteLength": 74,
+    "SpritePath": "sprites/aircraft/A320",
+    "SpriteWidth": 71,
+    "SpriteLength": 76,
     "SpriteFrames": 14,
     "MaxSpeed": 230.0,
     "Acceleration": 0.7
@@ -22,9 +22,9 @@
   {
     "ICAO": "A321",
     "DisplayName": "Airbus A321",
-    "SpritePath": "sprites/Aircraft/A321",
-    "SpriteWidth": 69,
-    "SpriteLength": 86,
+    "SpritePath": "sprites/aircraft/A321",
+    "SpriteWidth": 71,
+    "SpriteLength": 88,
     "SpriteFrames": 12,
     "MaxSpeed": 230.0,
     "Acceleration": 0.7
@@ -32,9 +32,9 @@
   {
     "ICAO": "AT76",
     "DisplayName": "ATR-72-600",
-    "SpritePath": "sprites/Aircraft/AT76",
-    "SpriteWidth": 53,
-    "SpriteLength": 53,
+    "SpritePath": "sprites/aircraft/AT76",
+    "SpriteWidth": 55,
+    "SpriteLength": 55,
     "SpriteFrames": 5,
     "MaxSpeed": 190.0,
     "Acceleration": 0.35
@@ -42,9 +42,9 @@
   {
     "ICAO": "B738",
     "DisplayName": "Boeing 737-800",
-    "SpritePath": "sprites/Aircraft/B738",
-    "SpriteWidth": 71,
-    "SpriteLength": 74,
+    "SpritePath": "sprites/aircraft/B738",
+    "SpriteWidth": 73,
+    "SpriteLength": 76,
     "SpriteFrames": 10,
     "MaxSpeed": 240.0,
     "Acceleration": 0.75
@@ -52,10 +52,10 @@
   {
     "ICAO": "B38M",
     "DisplayName": "Boeing 737 MAX 8",
-    "SpritePath": "sprites/Aircraft/B38M",
-    "SpriteWidth": 71,
-    "SpriteLength": 75,
-    "SpriteFrames": 10,
+    "SpritePath": "sprites/aircraft/B38M",
+    "SpriteWidth": 73,
+    "SpriteLength": 77,
+    "SpriteFrames": 7,
     "MaxSpeed": 240.0,
     "Acceleration": 0.75
   }

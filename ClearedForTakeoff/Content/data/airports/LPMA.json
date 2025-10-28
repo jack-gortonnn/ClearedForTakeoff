@@ -1,58 +1,295 @@
 {
   "ICAO": "LPMA",
-  "Center": [ 640, 360 ],
+  "Center": [
+    2670,
+    2400
+  ],
+  "ImagePath": "sprites/airports/LPMA",
   "Gates": [
     {
       "Name": "G1",
-      "Position": [ 500, 300 ],
-      "Orientation": 90
+      "Position": [
+        -486,
+        -128
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G2",
-      "Position": [ 700, 300 ],
-      "Orientation": 270
+      "Position": [
+        -400,
+        -128
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G3",
-      "Position": [ 600, 450 ],
-      "Orientation": 0
+      "Position": [
+        -320,
+        -126
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G4",
-      "Position": [ 550, 200 ],
-      "Orientation": 90
+      "Position": [
+        -238,
+        -126
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G5",
-      "Position": [ 730, 200 ],
-      "Orientation": 270
+      "Position": [
+        -154,
+        -122
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G6",
-      "Position": [ 500, 500 ],
-      "Orientation": 0
+      "Position": [
+        -74,
+        -118
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G7",
-      "Position": [ 780, 400 ],
-      "Orientation": 270
+      "Position": [
+        16,
+        -112
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G8",
-      "Position": [ 620, 550 ],
-      "Orientation": 0
+      "Position": [
+        108,
+        -108
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G9",
-      "Position": [ 560, 380 ],
-      "Orientation": 90
+      "Position": [
+        198,
+        -104
+      ],
+      "Orientation": 184
     },
     {
       "Name": "G10",
-      "Position": [ 720, 380 ],
-      "Orientation": 270
+      "Position": [
+        290,
+        -102
+      ],
+      "Orientation": 184
+    },
+    {
+      "Name": "G11",
+      "Position": [
+        378,
+        -82
+      ],
+      "Orientation": 184
+    },
+    {
+      "Name": "G12",
+      "Position": [
+        470,
+        -78
+      ],
+      "Orientation": 184
+    },
+    {
+      "Name": "G13",
+      "Position": [
+        576,
+        -74
+      ],
+      "Orientation": 184
+    },
+    {
+      "Name": "G14",
+      "Position": [
+        678,
+        -72
+      ],
+      "Orientation": 184
+    },
+    {
+      "Name": "G15",
+      "Position": [
+        774,
+        -70
+      ],
+      "Orientation": 184
     }
   ],
-  "Runways": [],
-  "TaxiNodes": []
+  "TaxiNodes": [
+    {
+      "Name": "N1",
+      "Position": [
+        -478,
+        -296
+      ]
+    },
+    {
+      "Name": "N2",
+      "Position": [
+        -394,
+        -256
+      ]
+    },
+    {
+      "Name": "N3",
+      "Position": [
+        -312,
+        -252
+      ]
+    },
+    {
+      "Name": "N4",
+      "Position": [
+        -230,
+        -248
+      ]
+    },
+    {
+      "Name": "N5",
+      "Position": [
+        -146,
+        -246
+      ]
+    },
+    {
+      "Name": "N6",
+      "Position": [
+        -62,
+        -244
+      ]
+    },
+    {
+      "Name": "N7",
+      "Position": [
+        24,
+        -242
+      ]
+    },
+    {
+      "Name": "N8",
+      "Position": [
+        118,
+        -238
+      ]
+    },
+    {
+      "Name": "N9",
+      "Position": [
+        208,
+        -236
+      ]
+    },
+    {
+      "Name": "N10",
+      "Position": [
+        300,
+        -232
+      ]
+    },
+    {
+      "Name": "N11",
+      "Position": [
+        390,
+        -230
+      ]
+    },
+    {
+      "Name": "N12",
+      "Position": [
+        482,
+        -226
+      ]
+    },
+    {
+      "Name": "N13",
+      "Position": [
+        586,
+        -222
+      ]
+    },
+    {
+      "Name": "N14",
+      "Position": [
+        690,
+        -220
+      ]
+    },
+    {
+      "Name": "N15",
+      "Position": [
+        792,
+        -218
+      ]
+    }
+  ],
+  "Taxiways": [
+    [
+      "N1",
+      "N2"
+    ],
+    [
+      "N2",
+      "N3"
+    ],
+    [
+      "N3",
+      "N4"
+    ],
+    [
+      "N4",
+      "N5"
+    ],
+    [
+      "N5",
+      "N6"
+    ],
+    [
+      "N6",
+      "N7"
+    ],
+    [
+      "N7",
+      "N8"
+    ],
+    [
+      "N8",
+      "N9"
+    ],
+    [
+      "N9",
+      "N10"
+    ],
+    [
+      "N10",
+      "N11"
+    ],
+    [
+      "N11",
+      "N12"
+    ],
+    [
+      "N12",
+      "N13"
+    ],
+    [
+      "N13",
+      "N14"
+    ],
+    [
+      "N14",
+      "N15"
+    ]
+  ]
 }

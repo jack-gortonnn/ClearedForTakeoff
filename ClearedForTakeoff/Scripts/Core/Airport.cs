@@ -1,57 +1,42 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-// worth noting that we don't need constructors since contentmanager does it for us
 public class Airport
 {
-    public string ICAO { get; init; } = "";
-    public string ATIS { get; init; }
+    public string ICAO { get; set; } = "";
+    public Vector2 Center { get; set; }
 
-    public List<Gate> Gates { get; init; } = new();
-    public List<Runway> Runways { get; init; } = new();
+    public string ImagePath { get; set; } = "";
+    public List<Gate> Gates { get; set; } = new();
+    public List<TaxiNode> TaxiNodes { get; set; } = new();
+    public List<List<string>> Taxiways { get; set; } = new();
 
-    public Dictionary<string, GroundNode> Nodes { get; set; } = new();
-    public List<GroundEdge> Edges { get; set; } = new();
+    [JsonIgnore]
+    public Dictionary<string, TaxiNode> Nodes { get; private set; } = new();
+    public Texture2D Image { get; set; }
 
-    public enum TaxiPhase { Pushback, Taxi, Holding, LineUp }
-
-    public class GroundNode
+    public void BuildNodeLookup()
     {
-        public string Id { get; init; } = "";
-        public Vector2 Position { get; init; }
-        public TaxiPhase Phase { get; init; } = TaxiPhase.Taxi;
-        public List<GroundEdge>? Outgoing { get; set; } = new();
-        public string? AssignedFlight { get; set; }
+        Nodes.Clear();
+        foreach (var n in TaxiNodes)
+            Nodes[n.Name] = n;
     }
+}
 
-    public class GroundEdge
-    {
-        public string Name { get; init; } = "";
-        public GroundNode From { get; set; }
-        public GroundNode To { get; set; }
-        public TaxiPhase Phase { get; init; } = TaxiPhase.Taxi;
-        public bool IsOneWay { get; init; } = true;
-        public bool Occupied { get; set; } = false;
-    }
+public class Gate
+{
+    public string Name { get; set; } = "";
+    public Vector2 Position { get; set; }
+    public float Orientation { get; set; }
 
-    public class Gate
-    {
-        public string Name { get; init; } = "";
-        public Vector2 Position { get; init; }
-        public float Orientation { get; init; } = 0f;
-        public GroundNode PushbackNode { get; set; }  // nullable
-        public float PushbackOrientation { get; init; } = 0f;
-    }
+    public string? PushbackNodeId { get; set; }
+    [JsonIgnore] public TaxiNode? PushbackNode { get; set; }
+}
 
-    public class Runway
-    {
-        public string Name { get; init; } = "";
-        public Vector2 Start { get; init; }
-        public Vector2 End { get; init; }
-        public GroundNode HoldingNode { get; set; }
-        public GroundNode LineUpNode { get; set; }
-        public float Heading => MathHelper.ToDegrees((float)Math.Atan2(End.Y - Start.Y, End.X - Start.X));
-        public float Length => Vector2.Distance(Start, End);
-    }
+public class TaxiNode
+{
+    public string Name { get; set; } = "";
+    public Vector2 Position { get; set; }
 }
