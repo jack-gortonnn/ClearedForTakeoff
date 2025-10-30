@@ -3,7 +3,6 @@
     "Name": "American Airlines",
     "Callsign": "American",
     "Code": "AAL",
-    "Frequency": 8,
     "Routes": {
       "KSAN": [ "KCLT", "KORD", "KDFW" ]
     },
@@ -12,39 +11,45 @@
       "A321": 1,
       "B738": 1,
       "B38M": 1
+    },
+    "AirportFrequencies": {
+      "KSAN": 9
     }
   },
   {
     "Name": "Air France",
     "Callsign": "Air France",
     "Code": "AFR",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "LFPG" ]
     },
     "Fleet": {
       "A319": 1,
       "A320": 2
+    },
+    "AirportFrequencies": {
+      "EGCC": 2
     }
   },
   {
     "Name": "Alaska Airlines",
     "Callsign": "Alaskan",
     "Code": "ASA",
-    "Frequency": 2,
     "Routes": {
       "KSAN": [ "KSEA", "KPDX" ]
     },
     "Fleet": {
       "B738": 2,
       "B38M": 2
+    },
+    "AirportFrequencies": {
+      "KSAN": 8
     }
   },
   {
     "Name": "British Airways",
     "Callsign": "Speedbird",
     "Code": "BAW",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EGLL" ],
       "LPMA": [ "EGLL", "EGKK" ]
@@ -53,25 +58,30 @@
       "A319": 2,
       "A320": 3,
       "A321": 2
+    },
+    "AirportFrequencies": {
+      "EGCC": 5,
+      "LPMA": 5
     }
   },
   {
     "Name": "Brussels Airlines",
     "Callsign": "Bee-Line",
     "Code": "BEL",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EBBR" ]
     },
     "Fleet": {
       "A319": 3
+    },
+    "AirportFrequencies": {
+      "EGCC": 2
     }
   },
   {
     "Name": "Delta Air Lines",
     "Callsign": "Delta",
     "Code": "DAL",
-    "Frequency": 5,
     "Routes": {
       "KSAN": [ "KLAX", "KSEA" ]
     },
@@ -79,13 +89,15 @@
       "A319": 4,
       "A320": 4,
       "A321": 3
+    },
+    "AirportFrequencies": {
+      "KSAN": 8
     }
   },
   {
     "Name": "easyJet",
     "Callsign": "Easy",
     "Code": "EZY",
-    "Frequency": 8,
     "Routes": {
       "EGCC": [ "LPMA", "LEPA", "LEBL", "LEAL", "LEMH", "LEIB", "LCPH", "LCLK", "EHAM", "LFML", "LPFR", "EGAA", "LGSK", "LGKR", "GCTS", "GCRR", "GCLP", "LTAI", "LFSB", "EDDB", "EKCH", "LSGG", "LXGB", "LPPT", "LMML" ],
       "LPMA": [ "EGCC", "EHAM", "EDDB", "LPPT", "EGKK", "EGGW", "EGCC", "EGGD", "LPPR", "LPPT" ]
@@ -94,13 +106,16 @@
       "A319": 5,
       "A320": 7,
       "A321": 6
+    },
+    "AirportFrequencies": {
+      "EGCC": 8,
+      "LPMA": 8
     }
   },
   {
     "Name": "Lufthansa",
     "Callsign": "Lufthansa",
     "Code": "DLH",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EDDF", "EDDM" ],
       "LPMA": [ "EDDF", "EDDM" ]
@@ -108,143 +123,173 @@
     "Fleet": {
       "A320": 5,
       "A321": 4
+    },
+    "AirportFrequencies": {
+      "EGCC": 3,
+      "LPMA": 3
     }
   },
   {
     "Name": "Eurowings",
     "Callsign": "Eurowings",
     "Code": "EWG",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EDDL" ],
       "LPMA": [ "EDDL" ]
     },
     "Fleet": {
       "A320": 6
+    },
+    "AirportFrequencies": {
+      "EGCC": 2,
+      "LPMA": 2
     }
   },
   {
     "Name": "Iberia",
     "Callsign": "Iberia",
     "Code": "IBE",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "LEMD" ],
       "LPMA": [ "LEMD" ]
     },
     "Fleet": {
       "A320": 8
+    },
+    "AirportFrequencies": {
+      "EGCC": 2,
+      "LPMA": 2
     }
   },
   {
     "Name": "Norwegian Airlines",
     "Callsign": "Nordic",
     "Code": "NOZ",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EKCH", "ENGM" ]
     },
     "Fleet": {
       "B738": 5,
       "B38M": 3
+    },
+    "AirportFrequencies": {
+      "EGCC": 3
     }
   },
   {
     "Name": "Southwest Airlines",
     "Callsign": "Southwest",
     "Code": "SWA",
-    "Frequency": 4,
     "Routes": {
       "KSAN": [ "KLAS", "KPHX" ]
     },
     "Fleet": {
       "B738": 7,
       "B38M": 4
+    },
+    "AirportFrequencies": {
+      "KSAN": 10
     }
   },
   {
     "Name": "Scandinavian Airlines",
     "Callsign": "Scandinavian",
     "Code": "SAS",
-    "Frequency": 1,
     "Routes": {
+      "LPMA": [ "EKCH", "ESSA" ],
       "EGCC": [ "EKCH", "ESSA", "ENGM" ]
     },
     "Fleet": {
       "A320": 12
+    },
+    "AirportFrequencies": {
+      "EGCC": 3,
+      "LPMA": 3
     }
   },
   {
     "Name": "KLM Royal Dutch Airlines",
     "Callsign": "KLM",
     "Code": "KLM",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EHAM" ]
     },
     "Fleet": {
       "B738": 4
+    },
+    "AirportFrequencies": {
+      "EGCC": 4
     }
   },
   {
     "Name": "Ryanair",
     "Callsign": "Ryanair",
     "Code": "RYR",
-    "Frequency": 9,
     "Routes": {
       "EGCC": [ "LPMA", "LEPA", "LEBL", "LEAL", "LEMH", "LEIB", "LCPH", "LCLK", "EHAM", "LFML", "LPFR", "LGSK", "LGKR", "GCTS", "GCRR", "GCLP", "EDDB", "EKCH", "LSGG", "LPPT", "LMML", "EIDW" ],
       "LPMA": [ "EGCC", "EHAM", "EDDB", "LPPT", "EGKK", "EGGW", "EGCC", "EGGD", "LPPR", "LPPT" ]
     },
     "Fleet": {
       "B738": 6
+    },
+    "AirportFrequencies": {
+      "EGCC": 9,
+      "LPMA": 7
     }
   },
   {
     "Name": "Swiss",
     "Callsign": "Swiss",
     "Code": "SWR",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "LSZH" ]
     },
     "Fleet": {
       "A320": 9
+    },
+    "AirportFrequencies": {
+      "EGCC": 3
     }
   },
   {
     "Name": "TAP Air Portugal",
     "Callsign": "Air Portugal",
     "Code": "TAP",
-    "Frequency": 1,
     "Routes": {
-      "LPMA": [ "LPPT", "LPPR" ],
+      "LPMA": [ "LPPT", "LPPR", "LPFR" ],
       "EGCC": [ "LPPT" ]
     },
     "Fleet": {
       "A320": 10,
       "A321": 7,
       "AT76": 4
+    },
+    "AirportFrequencies": {
+      "EGCC": 3,
+      "LPMA": 7
     }
   },
   {
     "Name": "TUI",
     "Callsign": "Tomjet",
     "Code": "TOM",
-    "Frequency": 5,
     "Routes": {
       "EGCC": [ "LPMA", "LEPA", "LEBL", "LEAL", "LEMH", "LEIB", "LCPH", "LCLK", "LGIR", "LFML", "LPFR", "LEMG", "LGSK", "LGKR", "GCTS", "GCRR", "GCLP" ],
-      "LPMA": [ "EGCC", "EGKK", "EGGW", "EGCC", "EGGD" ]
+      "LPMA": [ "EGCC", "EGBB" ]
     },
     "Fleet": {
       "B738": 8,
       "B38M": 5
+    },
+    "AirportFrequencies": {
+      "EGCC": 5,
+      "LPMA": 3
     }
   },
   {
     "Name": "United Airlines",
     "Callsign": "United",
     "Code": "UAL",
-    "Frequency": 4,
     "Routes": {
       "KSAN": [ "KLAX", "KSFO" ]
     },
@@ -253,13 +298,15 @@
       "A321": 9,
       "B738": 9,
       "B38M": 6
+    },
+    "AirportFrequencies": {
+      "KSAN": 8
     }
   },
   {
     "Name": "Jet2",
     "Callsign": "Channex",
     "Code": "EXS",
-    "Frequency": 5,
     "Routes": {
       "EGCC": [ "LPMA", "LEPA", "LEBL", "LEAL", "LEMH", "LEIB", "LCPH", "LCLK", "LGIR", "LFML", "LPFR", "LEMG", "LGSK", "LGKR", "GCTS", "GCRR", "GCLP" ],
       "LPMA": [ "EGCC", "EGKK", "EGGW", "EGCC", "EGGD", "EGNM" ]
@@ -267,73 +314,86 @@
     "Fleet": {
       "A321": 5,
       "B738": 3
+    },
+    "AirportFrequencies": {
+      "EGCC": 6,
+      "LPMA": 4
     }
   },
   {
     "Name": "Turkish Airlines",
     "Callsign": "Turkish",
     "Code": "THY",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "LTFM" ]
     },
     "Fleet": {
       "A321": 8
+    },
+    "AirportFrequencies": {
+      "EGCC": 3
     }
   },
   {
     "Name": "Wizz Air",
     "Callsign": "Wizz",
     "Code": "WZZ",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "LROP" ]
     },
     "Fleet": {
       "A321": 10
+    },
+    "AirportFrequencies": {
+      "EGCC": 2
     }
   },
   {
     "Name": "Aer Lingus",
     "Callsign": "Shamrock",
     "Code": "EIN",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EIDW" ]
     },
     "Fleet": {
       "AT76": 1
+    },
+    "AirportFrequencies": {
+      "EGCC": 3
     }
   },
   {
     "Name": "Binter Canarias",
     "Callsign": "Binter",
     "Code": "IBB",
-    "Frequency": 1,
     "Routes": {
       "LPMA": [ "GCTS", "GCLP" ]
     },
     "Fleet": {
       "AT76": 2
+    },
+    "AirportFrequencies": {
+      "LPMA": 2
     }
   },
   {
     "Name": "Logan Air",
     "Callsign": "Logan",
     "Code": "LOG",
-    "Frequency": 1,
     "Routes": {
       "EGCC": [ "EGPF" ]
     },
     "Fleet": {
       "AT76": 3
+    },
+    "AirportFrequencies": {
+      "EGCC": 1
     }
   },
   {
     "Name": "Condor",
     "Callsign": "Condor",
     "Code": "CFG",
-    "Frequency": 3,
     "Routes": {
       "EGCC": [ "EDDF" ],
       "LPMA": [ "EDDF" ]
@@ -341,6 +401,10 @@
     "Fleet": {
       "A320": 13,
       "A321": 11
+    },
+    "AirportFrequencies": {
+      "EGCC": 3,
+      "LPMA": 3
     }
   }
 ]

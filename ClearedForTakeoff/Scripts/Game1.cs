@@ -171,9 +171,9 @@ public class Game1 : Game
 
         if (InputManager.Pressed(Keys.T))
         {
-            if (_selectedPlane.State.CurrentState != AircraftState.PushingBack)
+            if (_selectedPlane.State.CurrentState != AircraftState.HoldingPosition)
             {
-                _clicked = "Can't stop a plane that's not pushing back!";
+                _clicked = "Can't tell a plane to taxi that isn't holding position!";
             }
             else
             {
@@ -240,32 +240,32 @@ public class Game1 : Game
 
         // Draw airport (debug)
 
-        if (_loadingManager.CurrentAirport != null)
-        {
-            var airport = _loadingManager.CurrentAirport;
+        //if (_loadingManager.CurrentAirport != null)
+        //{
+        //    var airport = _loadingManager.CurrentAirport;
 
-            foreach (var taxinode in airport.TaxiNodes)
-                DrawPoint(taxinode.Position, Color.Yellow, 5);
+        //    foreach (var taxinode in airport.TaxiNodes)
+        //        DrawPoint(taxinode.Position, Color.Yellow, 5);
 
-            foreach (var taxiway in airport.Taxiways)
-            {
-                for (int i = 0; i < taxiway.Count - 1; i++)
-                {
-                    if (airport.Nodes.TryGetValue(taxiway[i], out var startNode) &&
-                        airport.Nodes.TryGetValue(taxiway[i + 1], out var endNode))
-                    {
-                        DrawLine(startNode.Position, endNode.Position, Color.Blue, 3);
-                    }
-                }
-            }
+        //    foreach (var taxiway in airport.Taxiways)
+        //    {
+        //        for (int i = 0; i < taxiway.Count - 1; i++)
+        //        {
+        //            if (airport.Nodes.TryGetValue(taxiway[i], out var startNode) &&
+        //                airport.Nodes.TryGetValue(taxiway[i + 1], out var endNode))
+        //            {
+        //                DrawLine(startNode.Position, endNode.Position, Color.Blue, 3);
+        //            }
+        //        }
+        //    }
 
-            foreach (var gate in airport.Gates)
-                DrawPoint(gate.Position, Color.Green, 7);
+        //    foreach (var gate in airport.Gates)
+        //        DrawPoint(gate.Position, Color.Green, 7);
 
-            foreach (var pushbackpoint in airport.PushbackNodes)
-                DrawPoint(pushbackpoint.Position, Color.Red, 6);
+        //    foreach (var pushbackpoint in airport.PushbackNodes)
+        //        DrawPoint(pushbackpoint.Position, Color.Red, 6);
 
-        }
+        //}
 
 
         // Draw all aircraft

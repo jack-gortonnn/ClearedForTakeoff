@@ -7,6 +7,7 @@ public enum AircraftState
     AtGate,
     PushingBack,
     Taxiing,
+    HoldingPosition,
     HoldingShort,
     LineUpAndWait,
     TakeoffRoll,

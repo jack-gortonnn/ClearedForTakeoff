@@ -26,29 +26,39 @@ public class AirportManager
         SpawnTestAircraft(_airport.ICAO);
     }
 
-
-
     private void SpawnTestAircraft(string ICAO)
     {
         _fleet.Clear();
         Debug.WriteLine($"[SPAWN] Starting spawn for {_airport?.ICAO ?? "NULL"}");
 
-        // Filter airlines that fly to this airport
-        var validAirlines = _airlines.Values
-            .Where(a => a.Routes?.ContainsKey(ICAO) == true)
-            .ToList();
-
         var random = new Random();
-        // Shuffle and take only as many as there are gates
-        validAirlines = validAirlines
-            .OrderBy(_ => random.Next())
-            .Take(_airport.Gates.Count)
-            .ToList();
 
-        for (int i = 0; i < validAirlines.Count && i < _airport.Gates.Count; i++)
+        // Build a weighted list of airlines based on per-airport frequency
+        var weightedAirlines = new List<Airline>();
+        foreach (var airline in _airlines.Values)
         {
-            var airline = validAirlines[i];
+            if (airline.Routes?.ContainsKey(ICAO) == true)
+            {
+                int freq = 1; // default frequency
+                if (airline.AirportFrequencies != null && airline.AirportFrequencies.TryGetValue(ICAO, out int f))
+                    freq = Math.Clamp(f, 1, 10); // clamp between 1-10
+
+                for (int i = 0; i < freq; i++)
+                    weightedAirlines.Add(airline);
+            }
+        }
+
+        if (weightedAirlines.Count == 0) return;
+
+        // Shuffle the weighted airline list
+        weightedAirlines = weightedAirlines.OrderBy(_ => random.Next()).ToList();
+
+        for (int i = 0; i < _airport.Gates.Count; i++)
+        {
             var gate = _airport.Gates[i];
+
+            // Pick a random airline from the weighted pool
+            var airline = weightedAirlines[random.Next(weightedAirlines.Count)];
 
             // Pick a random aircraft type from the airline fleet
             var aircraftTypes = airline.Fleet.Keys.ToList();
