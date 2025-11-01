@@ -16,7 +16,8 @@ public class Airport
 
     // runtime-only
     [JsonIgnore]
-    public Texture2D? Image { get; set; }
+    public Texture2D Image { get; set; }
+    public Dictionary<string, TaxiNode> Nodes { get; private set; } = new();
 
     public void BuildNodeLookup()
     {
@@ -29,10 +30,17 @@ public class Airport
             Nodes[node.Name] = node;
     }
 
-    [System.Text.Json.Serialization.JsonIgnore]
-    public Dictionary<string, TaxiNode> Nodes { get; private set; } = new();
-}
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        var bg = Image;
+        float scale = 2f;
+        Vector2 origin = Center / scale;
 
+        spriteBatch.Draw(Image, Vector2.Zero, null, Color.White, 0f, origin, scale, SpriteEffects.None, 0f);
+    }
+
+
+}
 public class Gate
 {
     public string Name { get; set; } = "";

@@ -5,7 +5,7 @@ using System.Linq;
 public class AircraftMovement
 {
     private readonly Aircraft _aircraft;
-    private readonly LoadingManager _lm;
+    private readonly LoadingManager _loadingManager;
 
     public Vector2 Position { get; private set; }
     public Vector2 Velocity { get; private set; }
@@ -18,10 +18,10 @@ public class AircraftMovement
     private Vector2 p0, p1, p2, pStraight;
     private float gateDir, nodeDir;
 
-    public AircraftMovement(Aircraft a, Vector2 pos, Vector2 vel, float heading, float acc, float maxSpeed, LoadingManager lm)
+    public AircraftMovement(Aircraft aircraft, Vector2 pos, Vector2 vel, float heading, float acc, float maxSpeed, LoadingManager loadingManager)
     {
-        _aircraft = a;
-        _lm = lm;
+        _aircraft = aircraft;
+        _loadingManager = loadingManager;
         Position = pos;
         Velocity = vel;
         Heading = heading;
@@ -58,7 +58,7 @@ public class AircraftMovement
 
     public void StartPushback(float dur = 40f)
     {
-        var gate = _lm.CurrentAirport.Gates.FirstOrDefault(g => g.Name == _aircraft.Identity.AssignedGate);
+        var gate = _loadingManager.CurrentAirport.Gates.FirstOrDefault(g => g.Name == _aircraft.Identity.AssignedGate);
         if (gate?.PushbackNode == null) return;
 
         pushing = true;
@@ -71,6 +71,7 @@ public class AircraftMovement
         p2 = gate.PushbackNode.Position;
 
         // we need to find the intersection point of the normals to the gate and node directions
+        // NOTE: WILL PRODUCE NaN IF DIRECTIONS ARE PARALLEL, BUT THAT SHOULD NEVER HAPPEN IN PRACTICE
         Vector2 rev = Dir(gateDir), fwd = Dir(nodeDir); // calc direction vectors
         float denom = rev.X * fwd.Y - rev.Y * fwd.X; // determinant for 2D line intersection
         p1 = pStraight + rev * (((p2.X - pStraight.X) * fwd.Y - (p2.Y - pStraight.Y) * fwd.X) / denom); // intersection point

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClearedForTakeoff")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f69e2b75d8c58459d5f44d117c6547c1914841f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e62b594961a54596ff170de273470ff65cbd6b3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClearedForTakeoff")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClearedForTakeoff")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
