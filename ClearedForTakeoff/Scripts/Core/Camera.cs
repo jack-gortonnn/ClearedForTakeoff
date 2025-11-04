@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 public class Camera2D
 {
-    public Vector2 Position { get; set; } = Vector2.Zero; // ✅ now settable
+    public Vector2 Position { get; set; } = Vector2.Zero;
     public float Zoom { get; private set; } = 1.0f;
     public float Rotation { get; private set; } = 0f;
 

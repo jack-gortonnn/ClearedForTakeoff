@@ -1,33 +1,33 @@
 [
   {
     "ICAO": "A319",
-    "DisplayName": "Airbus A319",
+    "DisplayName": "Airbus A319-100",
     "SpritePath": "sprites/aircraft/A319",
     "SpriteWidth": 71,
     "SpriteLength": 68,
     "SpriteFrames": 6,
     "MaxSpeed": 220.0,
-    "Acceleration": 0.6
+    "Acceleration": 5
   },
   {
     "ICAO": "A320",
-    "DisplayName": "Airbus A320",
+    "DisplayName": "Airbus A320-200",
     "SpritePath": "sprites/aircraft/A320",
     "SpriteWidth": 71,
     "SpriteLength": 76,
     "SpriteFrames": 14,
     "MaxSpeed": 230.0,
-    "Acceleration": 0.7
+    "Acceleration": 5
   },
   {
     "ICAO": "A321",
-    "DisplayName": "Airbus A321",
+    "DisplayName": "Airbus A321-200",
     "SpritePath": "sprites/aircraft/A321",
     "SpriteWidth": 71,
     "SpriteLength": 88,
     "SpriteFrames": 12,
     "MaxSpeed": 230.0,
-    "Acceleration": 0.7
+    "Acceleration": 5
   },
   {
     "ICAO": "AT76",
@@ -37,7 +37,7 @@
     "SpriteLength": 55,
     "SpriteFrames": 5,
     "MaxSpeed": 190.0,
-    "Acceleration": 0.35
+    "Acceleration": 1000
   },
   {
     "ICAO": "B738",
@@ -47,7 +47,7 @@
     "SpriteLength": 76,
     "SpriteFrames": 10,
     "MaxSpeed": 240.0,
-    "Acceleration": 0.75
+    "Acceleration": 5
   },
   {
     "ICAO": "B38M",
@@ -57,6 +57,6 @@
     "SpriteLength": 77,
     "SpriteFrames": 7,
     "MaxSpeed": 240.0,
-    "Acceleration": 0.75
+    "Acceleration": 5
   }
 ]

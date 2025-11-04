@@ -13,7 +13,7 @@ public class LoadingManager
     public Camera2D _camera;
 
     public Dictionary<string, Airline> Airlines { get; } = new();
-    public Airport? CurrentAirport { get; private set; }
+    public Airport CurrentAirport { get; private set; }
 
     public class AircraftType
     {

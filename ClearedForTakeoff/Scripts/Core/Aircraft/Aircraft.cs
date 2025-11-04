@@ -32,7 +32,6 @@ public class Aircraft
 
     public void Update(GameTime gameTime)
     {
-        Movement.Update(gameTime);
         State.Update(gameTime);
     }
 }

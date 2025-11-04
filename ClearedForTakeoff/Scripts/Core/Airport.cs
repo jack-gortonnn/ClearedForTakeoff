@@ -48,7 +48,7 @@ public class Gate
     public float Orientation { get; set; }
 
     [JsonIgnore]
-    public TaxiNode? PushbackNode { get; set; }
+    public TaxiNode PushbackNode { get; set; }
 }
 
 public class TaxiNode

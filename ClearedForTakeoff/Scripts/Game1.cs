@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 public class Game1 : Game
 {
@@ -13,7 +10,6 @@ public class Game1 : Game
     private UIManager UIManager;
     private LoadingManager LoadingManager;
     private AirportManager AirportManager;
-    private RadioManager RadioManager;
     private Camera2D Camera;
 
     private SpriteFont Consolas;
@@ -107,7 +103,7 @@ public class Game1 : Game
             {
                 selectedPlane = plane;
                 plane.IsSelected = true;
-                radioMessage = $"{plane.Identity.AirlineName} {plane.Identity.FlightNumber} | {plane.Identity.AircraftType} | {plane.Identity.Destination} | {plane.State.CurrentState} | {plane.Identity.AssignedGate ?? "?"}";
+                radioMessage = $"{plane.Identity.AirlineName} {plane.Identity.FlightNumber} | {plane.Identity.DisplayName} | Going to {plane.Identity.Destination} | {plane.State.AircraftStatus} {plane.Identity.AssignedGate ?? ""}";
                 break;
             }
         }
@@ -128,9 +124,9 @@ public class Game1 : Game
             plane.Sprite.Draw(SpriteBatch);
         }
 
-        UIManager.Draw(SpriteBatch, fps, screenPos, worldPos, radioMessage);
-
         SpriteBatch.End();
+
+        UIManager.Draw(SpriteBatch, fps, screenPos, worldPos, radioMessage); // outside of camera transform batch
 
         base.Draw(gameTime);
     }

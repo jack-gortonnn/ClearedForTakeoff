@@ -16,7 +16,7 @@ class RadioManager
             else
             {
                 _selectedPlane.State.SetState(AircraftState.PushingBack);
-                radioMessage = $"{_selectedPlane.Identity.FlightNumber}, cleared for pushback, {_selectedPlane.Identity.AssignedGate}.";
+                radioMessage = $"{_selectedPlane.Identity.FlightNumber}, cleared for pushback, stand {_selectedPlane.Identity.AssignedGate}, tail {_selectedPlane.Movement.tailFacing}.";
             }
         }
 

@@ -17,6 +17,7 @@ public class AircraftMovement
     private float timer, duration;
     private Vector2 p0, p1, p2, pStraight;
     private float gateDir, nodeDir;
+    public string tailFacing = "left";
 
     public AircraftMovement(Aircraft aircraft, Vector2 pos, Vector2 vel, float heading, float acc, float maxSpeed, LoadingManager loadingManager)
     {
@@ -29,101 +30,123 @@ public class AircraftMovement
         MaxSpeed = maxSpeed;
     }
 
-    private static float ToMono(float a) => a - 90f;
-    private static float FromMono(float a) => a + 90f;
-    private static float Ease(float t) => t * t * (3 - 2 * t); // smoothstep
-    private static Vector2 Dir(float a)
+    public void HoldPosition()
     {
-        float r = MathHelper.ToRadians(ToMono(a % 360f));
-        return new Vector2((float)Math.Cos(r), (float)Math.Sin(r));
+        Velocity = Vector2.Zero;
     }
 
-    public void Update(GameTime gt)
+    public void AtGate()
     {
-        float dt = (float)gt.ElapsedGameTime.TotalSeconds;
-        switch (_aircraft.State.CurrentState)
-        {
-            case AircraftState.PushingBack: Pushback(dt); break;
-            case AircraftState.Taxiing: Taxi(dt); break;
-        }
+        Velocity = Vector2.Zero;
     }
 
-    private void Taxi(float dt)
+    public void Taxi(float dt)
     {
         float s = MathHelper.Clamp(Velocity.Length() + Acceleration * dt, 0, MaxSpeed);
-        float r = MathHelper.ToRadians(ToMono(Heading));
+        float r = MathHelper.ToRadians(MathExtensions.ToMono(Heading));
         Velocity = new Vector2((float)Math.Cos(r), (float)Math.Sin(r)) * s;
         Position += Velocity * dt;
     }
 
-    public void StartPushback(float dur = 40f)
+    public void Pushback(float dt, float dur = 5f)
     {
-        var gate = _loadingManager.CurrentAirport.Gates.FirstOrDefault(g => g.Name == _aircraft.Identity.AssignedGate);
-        if (gate?.PushbackNode == null) return;
+        // 1. Setup & Validation (Runs once)
+        if (!pushing)
+        {
+            var gate = _loadingManager.CurrentAirport.Gates.FirstOrDefault(g => g.Name == _aircraft.Identity.AssignedGate);
+            if (gate?.PushbackNode == null)
+            {
+                _aircraft.State.SetState(AircraftState.HoldingPosition);
+                return;
+            }
 
-        pushing = true;
-        timer = 0; duration = dur;
-        gateDir = gate.Orientation;
-        nodeDir = gate.PushbackNode.Orientation;
+            // Set state and initial parameters
+            pushing = true;
+            timer = 0; duration = dur;
+            gateDir = gate.Orientation;
+            nodeDir = gate.PushbackNode.Orientation;
+    
+            // code for finding push tail direction
 
-        p0 = gate.Position;
-        pStraight = p0 + Dir(gateDir + 180) * 50f;
-        p2 = gate.PushbackNode.Position;
 
-        // we need to find the intersection point of the normals to the gate and node directions
-        // NOTE: WILL PRODUCE NaN IF DIRECTIONS ARE PARALLEL, BUT THAT SHOULD NEVER HAPPEN IN PRACTICE
-        Vector2 rev = Dir(gateDir), fwd = Dir(nodeDir); // calc direction vectors
-        float denom = rev.X * fwd.Y - rev.Y * fwd.X; // determinant for 2D line intersection
-        p1 = pStraight + rev * (((p2.X - pStraight.X) * fwd.Y - (p2.Y - pStraight.Y) * fwd.X) / denom); // intersection point
+            // Define control points (p0, pStraight, p2)
+            p0 = gate.Position;
+            pStraight = p0 + MathExtensions.Dir(gateDir + 180) * 50f;
+            p2 = gate.PushbackNode.Position;
 
-        Position = p0;
-        Velocity = Vector2.Zero;
-    }
+            // Calculate intersection point (p1) for the Bezier curve
+            Vector2 rev = MathExtensions.Dir(gateDir), fwd = MathExtensions.Dir(nodeDir);
+            float denom = rev.X * fwd.Y - rev.Y * fwd.X;
+            if (Math.Abs(denom) < 1e-6f) // Guard against parallel directions
+            {
+                pushing = false;
+                _aircraft.State.SetState(AircraftState.HoldingPosition);
+                return;
+            }
+            // Simplified p1 calculation - the arithmetic is condensed here
+            p1 = pStraight + rev * (((p2.X - pStraight.X) * fwd.Y - (p2.Y - pStraight.Y) * fwd.X) / denom);
 
-    private void Pushback(float dt)
-    {
-        if (!pushing) { StartPushback(); return; }
+            Position = p0;
+            Velocity = Vector2.Zero;
+        }
+
+        // 2. Movement Update (Runs every frame)
+        if (!pushing) return;
 
         timer += dt;
         float rawT = MathHelper.Clamp(timer / duration, 0, 1);
-        float t = Ease(rawT);
+        float t = MathExtensions.Ease(rawT);
         Vector2 prev = Position;
 
+        // Define phases
         const float straightPhase = 0.3f;
-        if (t < straightPhase) // first phase: straight line back, 30%
+        float lt; // Local normalized time
+
+        if (t < straightPhase) // Phase 1: Straight back
         {
-            float lt = t / straightPhase;
+            lt = t / straightPhase;
             Position = Vector2.Lerp(p0, pStraight, lt);
-            Heading = gateDir;
+            Heading = gateDir; // Heading is fixed during straight pushback
         }
-        else // second phase: bezier curve to the node, 70%
+        else // Phase 2: Bezier turn
         {
-            // cubic bezier between end of straight, intersection control point, and end point
-            float lt = (t - straightPhase) / (1 - straightPhase);
-            Vector2 a = Vector2.Lerp(pStraight, p1, lt);
-            Vector2 b = Vector2.Lerp(p1, p2, lt);
-            Position = Vector2.Lerp(a, b, lt);
+            lt = (t - straightPhase) / (1 - straightPhase);
 
-            // update heading to face along tangent, add 180 degrees to face backwards
-            Vector2 tan = b - a;
+            // Quadratic Bezier interpolation in one line (less readable but more concise)
+            Vector2 posA = Vector2.Lerp(pStraight, p1, lt);
+            Vector2 posB = Vector2.Lerp(p1, p2, lt);
+            Position = Vector2.Lerp(posA, posB, lt); // Final position
+
+            // Heading calculation from tangent vector (posB - posA)
+            Vector2 tan = posB - posA;
             if (tan.LengthSquared() > 1e-4f)
-                Heading = (FromMono(MathHelper.ToDegrees((float)Math.Atan2(tan.Y, tan.X))) + 180) % 360f;
+            {
+                float angle = MathHelper.ToDegrees((float)Math.Atan2(tan.Y, tan.X));
+                Heading = (MathExtensions.ToMagnetic(angle) + 180) % 360f;
+            }
         }
 
-        // update velocity
+        // 3. Velocity and Speed Control (Condensed)
         Velocity = (Position - prev) / dt;
 
-        // apply pushback speed cap, slowing down towards the end
-        float speed = Velocity.Length() * (1 - MathHelper.Clamp(rawT * 1.2f - 0.2f, 0, 1));
-        if (speed > 0.001f)
-            Velocity = Vector2.Normalize(Velocity) * speed;
+        // Calculate slowdown factor (accelerates/decelerates over the whole duration)
+        // Clamping limits the speed reduction effect to start after 0.2f and max out at 1.0f (full stop)
+        float slowdownFactor = 1.0f - MathHelper.Clamp(rawT * 1.2f - 0.2f, 0, 1);
 
-        if (rawT >= 1) // pushback complete
+        // Re-apply velocity using the calculated speed
+        if (Velocity.LengthSquared() > 1e-6f)
+            Velocity = Vector2.Normalize(Velocity) * (Velocity.Length() * slowdownFactor);
+        else
+            Velocity = Vector2.Zero;
+
+        // 4. Completion
+        if (rawT >= 1)
         {
             pushing = false;
             Position = p2;
             Heading = nodeDir;
             Velocity = Vector2.Zero;
+            _aircraft.Identity.AssignedGate = null;
             _aircraft.State.SetState(AircraftState.HoldingPosition);
         }
     }
