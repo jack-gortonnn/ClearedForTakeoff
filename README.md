@@ -1,6 +1,6 @@
 # Cleared for Takeoff
 
-Cleared for Takeoff is an unfinished ATC simulator made in C#.
+Cleared for Takeoff is an unfinished ATC simulator made in 2025 in C#.
 
 The project features custom aircraft liveries, sprite sheets and various flight-related mechanics.
 
